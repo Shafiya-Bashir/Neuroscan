@@ -2,7 +2,7 @@
 **Project Title:** Clinical Brain MRI Tumor Diagnostic Engine with Explainable AI (Grad-CAM)  
 **Lead Engineer / Researcher:** Dar Rehan Rasool  
 **Collaborator / Student:** Shafiya Pampori  
-**Repository:** [github.com/darrehanrasool/neuroscan-ai](https://github.com/darrehanrasool/neuroscan-ai)  
+**Repository:** [github.com/darrehanrasool/Neuroscan](https://github.com/darrehanrasool/Neuroscan)  
 **Date:** Academic Defense & Presentation (November 2026)
 
 ---

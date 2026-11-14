@@ -13,7 +13,9 @@ import {
   ChevronRight,
   ExternalLink,
   ShieldAlert,
-  ArrowRight
+  ArrowRight,
+  Download,
+  FileText
 } from "lucide-react";
 
 interface AcademicDefenseModalProps {
@@ -115,7 +117,7 @@ export function AcademicDefenseModal({ isOpen, onClose }: AcademicDefenseModalPr
             <div>
               <div className="flex items-center space-x-2">
                 <h2 className="text-xl font-bold text-white tracking-wide">
-                  NEUROSCAN-AI: Academic ML Defense & Technical Architecture
+                  NEUROSCAN: Academic ML Defense & Technical Architecture
                 </h2>
                 <span className="px-2 py-0.5 text-xs font-semibold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
                   From-Scratch PyTorch 2.14
@@ -127,12 +129,23 @@ export function AcademicDefenseModal({ isOpen, onClose }: AcademicDefenseModalPr
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center space-x-3">
+            <a
+              href="/NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              download="NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white shadow-md shadow-cyan-900/40 border border-cyan-400/40 transition"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download Official PDF Dossier</span>
+            </a>
+
+            <button
+              onClick={onClose}
+              className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Navigation Tabs */}
@@ -535,14 +548,24 @@ export function AcademicDefenseModal({ isOpen, onClose }: AcademicDefenseModalPr
         <div className="px-6 py-3 bg-slate-950/90 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
           <div className="flex items-center space-x-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>All 10 figures and documentation saved locally in <code className="text-cyan-300">ai_engine/reports/</code></span>
+            <span>Complete 9-page dossier generated: <code className="text-cyan-300">NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf</code></span>
           </div>
-          <button
-            onClick={onClose}
-            className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition font-medium"
-          >
-            Close Defense Panel
-          </button>
+          <div className="flex items-center space-x-3">
+            <a
+              href="/NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              download="NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600/90 hover:bg-emerald-500 text-white shadow-md shadow-emerald-950/40 border border-emerald-400/40 transition"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download PDF (9 Pages)</span>
+            </a>
+            <button
+              onClick={onClose}
+              className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition font-medium"
+            >
+              Close Defense Panel
+            </button>
+          </div>
         </div>
 
       </div>

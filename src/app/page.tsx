@@ -26,6 +26,7 @@ import {
   Mic,
   ArrowRight,
   BarChart3,
+  Download,
 } from "lucide-react";
 
 export default function Home() {
@@ -123,7 +124,7 @@ export default function Home() {
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h1 className="text-base font-bold tracking-tight text-white">NEUROSCAN-AI</h1>
+                <h1 className="text-base font-bold tracking-tight text-white">NEUROSCAN</h1>
                 <span className="px-2 py-0.5 text-[10px] font-mono font-semibold bg-cyan-950 text-cyan-300 border border-cyan-500/40 rounded-full">
                   Explainable AI (XAI) Radiology PACS
                 </span>
@@ -135,6 +136,16 @@ export default function Home() {
           </div>
 
           <div className="flex items-center space-x-3">
+            {/* Download PDF Dossier Button */}
+            <a
+              href="/NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              download="NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/50 shadow-lg shadow-emerald-950/40 transition-all cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download ML Dossier PDF</span>
+            </a>
+
             {/* Academic ML Defense & 10 Figures Button */}
             <button
               onClick={() => setShowDefenseModal(true)}

@@ -1,9 +1,9 @@
 # NEUROSCAN: Machine Learning Pipeline & Architectural Manifesto
 **Project Title:** Clinical Brain MRI Tumor Diagnostic Engine with Explainable AI (Grad-CAM)  
-**Faculty Supervisor:** Dr. Syed Wajid Alam  
+**Faculty Supervisor:** Dr. Syed Wajid Alam (Assistant Professor, Department of Artificial Intelligence)  
 **Lead Developer / Engineer:** Dar Rehan Rasool  
 **Student Contributor:** Shafiya Pampori  
-**Institution:** Islamic University of Science and Technology (IUST)  
+**Institution:** Islamic University of Science and Technology (IUST), Department of Artificial Intelligence  
 **Repository:** [github.com/darrehanrasool/Neuroscan](https://github.com/darrehanrasool/Neuroscan)  
 **Date:** Academic AI Project Defense (November 2026)
 

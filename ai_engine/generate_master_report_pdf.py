@@ -1,7 +1,7 @@
 """
 NEUROSCAN: Complete Scientific Master Learning Report & Architectural Dossier Generator
 Authors: Dar Rehan Rasool (Lead Developer / Student) & Shafiya Pampori (Student Contributor)
-Academic AI Course Project · Supervised by Dr. Syed Wajid Alam
+Academic AI Course Project · Supervised by Dr. Syed Wajid Alam (Assistant Professor, Dept. of Artificial Intelligence)
 Islamic University of Science and Technology (IUST), Awantipora, J&K
 
 Generates:
@@ -410,13 +410,13 @@ def main():
 
     <!-- Header Box -->
     <div class="header-box">
-        <div class="header-meta">Islamic University of Science & Technology (IUST) · Department of Computer Science & Engineering · Academic AI Course Project</div>
+        <div class="header-meta">Islamic University of Science & Technology (IUST) · Department of Artificial Intelligence · Academic AI Course Project</div>
         <h1>Neuroscan: Brain Tumor Neoplasm Diagnostic Engine</h1>
         <p class="header-subtitle">
             An End-to-End Master Engineering & Clinical Report: From-Scratch 4-Stage Deep Convolutional Neural Network (NeuroScanCustomCNN), Stratified 70/20/10 Cohort Partitioning, Dual-Tier Class Imbalance Resolution, and Explainable AI (Grad-CAM) Visual Attribution
         </p>
         <div class="meta-grid">
-            <div class="meta-item"><b>Faculty Supervisor</b> Dr. Syed Wajid Alam (Senior Assistant Professor, CSE)</div>
+            <div class="meta-item"><b>Faculty Supervisor</b> Dr. Syed Wajid Alam (Assistant Professor, Dept. of AI)</div>
             <div class="meta-item"><b>Student Authors</b> Dar Rehan Rasool (Lead) & Shafiya Pampori</div>
             <div class="meta-item"><b>Deep Architecture</b> From-Scratch 4-Stage CNN (1,206,884 Params, He Init)</div>
             <div class="meta-item"><b>Imbalance Resolution</b> Two-Tier: Weighted Sampler + Scaled CE Loss (IR: 2.23:1)</div>
@@ -1261,7 +1261,7 @@ def main():
             All 10 diagnostic figures generated · From-scratch model serialized to <code>ai_engine/weights/neuroscan_scratch_model.pth</code> · Web PACS dashboard active · 100% Academic AI Project Defense Ready
         </p>
         <p style="margin: 2pt 0 0 0; font-size: 7.5pt; color: #94a3b8;">
-            Faculty Supervisor: Dr. Syed Wajid Alam · Lead Student Engineer: Dar Rehan Rasool · Contributor: Shafiya Pampori · IUST Dept. of CSE
+            Faculty Supervisor: Dr. Syed Wajid Alam (Assistant Professor) · Lead Student Engineer: Dar Rehan Rasool · Contributor: Shafiya Pampori · IUST Dept. of Artificial Intelligence
         </p>
     </div>
 

@@ -58,7 +58,7 @@ class NumberedCanvas(canvas.Canvas):
         # Footer (All Pages)
         text = f"Page {self._pageNumber} of {page_count}"
         self.drawRightString(letter[0] - 54, 30, text)
-        self.drawString(54, 30, "IUST Academic AI Project • Under Faculty Dr. Syed Wajid Alam • github.com/darrehanrasool/Neuroscan")
+        self.drawString(54, 30, "IUST Academic AI Project • Under Faculty Dr. Syed Wajid Alam (Asst. Prof, Dept. of AI) • github.com/darrehanrasool/Neuroscan")
         self.setStrokeColor(colors.HexColor("#cbd5e1"))
         self.setLineWidth(0.5)
         self.line(54, 42, letter[0] - 54, 42)
@@ -166,7 +166,7 @@ def build_pdf():
     story.append(HRFlowable(width="100%", thickness=1.5, color=accent_color, spaceAfter=12))
 
     meta_data = [
-        [Paragraph("Faculty Supervisor:", meta_label), Paragraph("Dr. Syed Wajid Alam", meta_val),
+        [Paragraph("Faculty Supervisor:", meta_label), Paragraph("Dr. Syed Wajid Alam (Asst. Prof, Dept. of AI)", meta_val),
          Paragraph("Deep Learning Framework:", meta_label), Paragraph("PyTorch 2.14.0 (Custom CNN)", meta_val)],
         [Paragraph("Lead Developer / Student:", meta_label), Paragraph("Dar Rehan Rasool", meta_val),
          Paragraph("Hardware Acceleration:", meta_label), Paragraph("Apple Silicon MPS GPU (Unified)", meta_val)],

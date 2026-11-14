@@ -124,7 +124,7 @@ export function AcademicDefenseModal({ isOpen, onClose }: AcademicDefenseModalPr
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Lead Developer: <span className="text-slate-200 font-medium">Dar Rehan Rasool</span> • Student: <span className="text-slate-200 font-medium">Shafiya Pampori</span> • Faculty Supervisor: <span className="text-cyan-300 font-medium">Dr. Syed Wajid Alam</span>
+                Lead Developer: <span className="text-slate-200 font-medium">Dar Rehan Rasool</span> • Student: <span className="text-slate-200 font-medium">Shafiya Pampori</span> • Faculty Supervisor: <span className="text-cyan-300 font-medium">Dr. Syed Wajid Alam (Assistant Professor, Dept. of AI)</span>
               </p>
             </div>
           </div>

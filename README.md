@@ -43,11 +43,11 @@ This academic AI project is developed under faculty guidance and supervision:
 
 | Role | Name | Designation & Affiliation | Project & Technical Contribution |
 | :--- | :--- | :--- | :--- |
-| **Faculty Supervisor** | **Dr. Syed Wajid Alam\*** | Faculty Supervisor, Islamic University of Science and Technology (IUST) | Project Guidance, Academic Supervision & Review |
+| **Faculty Supervisor** | **Dr. Syed Wajid Alam\*** | Assistant Professor, Department of Artificial Intelligence, IUST | Project Guidance, Academic Supervision & Review |
 | **Lead Developer & Engineer** | **Dar Rehan Rasool** | Developer & Student, IUST | From-Scratch CNN Architecture, Loss Weight Calibration, Grad-CAM Engine, PACS Workstation & Benchmarks |
 | **Student Contributor** | **Shafiya Pampori** | Student Researcher, IUST | Dataset Generation & Stratification, Statistical Metric Evaluation & Clinical Radiology Verification |
 
-- **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India
+- **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India (Department of Artificial Intelligence)
 - **Author Profiles**: [GitHub: @darrehanrasool](https://github.com/darrehanrasool)
 - *\* Denotes supervising faculty.*
 
@@ -407,9 +407,9 @@ This project is licensed under the **Academic AI Project Evaluation License (All
   affiliation={Islamic University of Science and Technology (IUST), Kashmir, India},
   year={2026},
   url={https://github.com/darrehanrasool/Neuroscan},
-  note={AI Course Project under Faculty Supervision of Dr. Syed Wajid Alam. Copyright \copyright 2026 Dar Rehan Rasool (@darrehanrasool). All Rights Reserved.}
+  note={AI Course Project under Faculty Supervision of Dr. Syed Wajid Alam (Assistant Professor, Department of Artificial Intelligence). Copyright \copyright 2026 Dar Rehan Rasool (@darrehanrasool). All Rights Reserved.}
 }
 ```
 
 **Copyright © 2026 Dar Rehan Rasool ([@darrehanrasool](https://github.com/darrehanrasool)). All Rights Reserved.**  
-Supervised by **Dr. Syed Wajid Alam\***, Islamic University of Science and Technology (IUST).
+Supervised by **Dr. Syed Wajid Alam\*** (Assistant Professor, Department of Artificial Intelligence), Islamic University of Science and Technology (IUST).

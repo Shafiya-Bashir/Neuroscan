@@ -192,20 +192,26 @@ To eliminate "black box" skepticism in radiology, NEUROSCAN implements **Gradien
 
 ## 📈 Comprehensive Diagnostic Visualizations (All 10 Figures)
 
-All 10 publication-quality diagnostic charts are generated in high resolution inside `ai_engine/reports/figures/` and embedded in the web application:
+All 10 publication-quality diagnostic charts are generated in high resolution inside `ai_engine/reports/figures/` and embedded in a 3-column layout below:
 
-| Figure | Thumbnail | Title & Clinical Description | Key Formula / Metric |
-| :---: | :---: | :--- | :--- |
-| **01** | <img src="public/reports/figures/01_class_imbalance_distribution.png" width="220" /> | **Class Imbalance & Loss Weights**<br/>Demonstrates cohort skew and inverse loss scaling ($w_c$). | $w_c = \frac{N_{\text{total}}}{C \cdot N_c}$ |
-| **02** | <img src="public/reports/figures/02_stratified_split_70_20_10.png" width="220" /> | **Stratified 70/20/10 Split Manifest**<br/>Volume distribution across 363 Train, 104 Val, and 53 Test scans. | $70\% / 20\% / 10\%$ Isolation |
-| **03** | <img src="public/reports/figures/03_training_validation_loss.png" width="220" /> | **Cross-Entropy Loss Trajectory**<br/>Monitors loss convergence across 15 epochs on MPS GPU. | $\mathcal{L}_{\text{Weighted CE}} \to 0.0027$ |
-| **04** | <img src="public/reports/figures/04_training_validation_accuracy.png" width="220" /> | **Multi-Class Accuracy Trajectory**<br/>Convergence from ~51% initial state to 100% validation generalization. | $\text{Accuracy} = \frac{\sum TP}{N} \times 100\%$ |
-| **05** | <img src="public/reports/figures/05_confusion_matrix_normalized.png" width="220" /> | **Normalized 4×4 Confusion Matrix**<br/>Evaluation on untouched 10% test set proving 100% sensitivity. | $CM_{ij} = \frac{C_{ij}}{\sum_k C_{ik}} \times 100\%$ |
-| **06** | <img src="public/reports/figures/06_multiclass_roc_curves.png" width="220" /> | **One-vs-Rest ROC Curves**<br/>Receiver Operating Characteristic curves with AUC = 1.0000. | $TPR = \frac{TP}{TP + FN}$ vs $FPR$ |
-| **07** | <img src="public/reports/figures/07_precision_recall_curves.png" width="220" /> | **Precision-Recall Curves (AP)**<br/>Maintains high positive predictive value without minority collapse. | $\text{Precision} = \frac{TP}{TP + FP}$ vs $\text{Recall}$ |
-| **08** | <img src="public/reports/figures/08_per_class_f1_precision_recall.png" width="220" /> | **Per-Class Performance Metrics**<br/>Precision, Recall, and F1-Scores across all 4 neoplastic conditions. | $F_1 = 2 \cdot \frac{P \cdot R}{P + R}$ |
-| **09** | <img src="public/reports/figures/09_gradcam_feature_attribution.png" width="220" /> | **Grad-CAM Feature Attribution**<br/>3-panel explainability: (A) MRI, (B) Stage-4 Map, (C) Overlay. | $L^c = \text{ReLU}(\sum \alpha_k^c A^k)$ |
-| **10** | <img src="public/reports/figures/10_learning_rate_schedule.png" width="220" /> | **Cosine Annealing LR Decay**<br/>Decoupled decay from $\eta_{\max}=5\times 10^{-4}$ to $\eta_{\min}=10^{-5}$. | $\eta_t = \eta_{\min} + \frac{1}{2}(\eta_{\max} - \eta_{\min})(1 + \cos(\frac{t\pi}{T}))$ |
+| **01. Class Imbalance & Loss Weights** | **02. Stratified 70/20/10 Split Manifest** | **03. Training & Validation Loss** |
+| :---: | :---: | :---: |
+| <img src="ai_engine/reports/figures/01_class_imbalance_distribution.png" width="100%" alt="Figure 01: Class Imbalance" /> | <img src="ai_engine/reports/figures/02_stratified_split_70_20_10.png" width="100%" alt="Figure 02: Stratified Split" /> | <img src="ai_engine/reports/figures/03_training_validation_loss.png" width="100%" alt="Figure 03: Training & Validation Loss" /> |
+| *Demonstrates cohort skew & calibrated $w_c$ weights ($w_{\text{pituitary}} = 1.62$)* | *Volume distribution across 363 Train, 104 Val, and 53 Test scans (zero data leakage)* | *Cross-entropy loss minimization trajectory across 15 epochs on MPS GPU* |
+| **04. Diagnostic Accuracy Trajectory** | **05. Normalized 4×4 Confusion Matrix** | **06. Multi-Class One-vs-Rest ROC Curves** |
+| <img src="ai_engine/reports/figures/04_training_validation_accuracy.png" width="100%" alt="Figure 04: Diagnostic Accuracy" /> | <img src="ai_engine/reports/figures/05_confusion_matrix_normalized.png" width="100%" alt="Figure 05: Confusion Matrix" /> | <img src="ai_engine/reports/figures/06_multiclass_roc_curves.png" width="100%" alt="Figure 06: ROC Curves" /> |
+| *Progression from ~51% random state to 100% validation generalization* | *Evaluation on untouched 10% test set (53 scans) proving 100% sensitivity* | *Receiver Operating Characteristic curves with AUC = 1.000 across all 4 classes* |
+| **07. Precision-Recall Curves (AP)** | **08. Per-Class Diagnostic Performance** | **09. Explainable AI: Grad-CAM Saliency** |
+| <img src="ai_engine/reports/figures/07_precision_recall_curves.png" width="100%" alt="Figure 07: Precision-Recall Curves" /> | <img src="ai_engine/reports/figures/08_per_class_f1_precision_recall.png" width="100%" alt="Figure 08: Per-Class Performance" /> | <img src="ai_engine/reports/figures/09_gradcam_feature_attribution.png" width="100%" alt="Figure 09: Grad-CAM Feature Attribution" /> |
+| *Average Precision curves showing sustained high positive predictive value* | *Side-by-side harmonic balance across Precision, Recall, and F1-Scores* | *3-panel clinical explainability: (A) T1 MRI, (B) Stage-4 Map, (C) Overlay* |
+
+<div align="center">
+
+### 10. Cosine Annealing Learning Rate Decay Schedule
+<img src="ai_engine/reports/figures/10_learning_rate_schedule.png" width="65%" alt="Figure 10: Cosine Annealing Learning Rate Schedule" /><br/>
+<sub>Decoupled Cosine Annealing schedule starting at $\eta_{\max} = 5\times 10^{-4}$ smoothly decaying to $\eta_{\min} = 10^{-5}$ across 15 epochs.</sub>
+
+</div>
 
 ---
 

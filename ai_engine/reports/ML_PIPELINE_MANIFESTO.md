@@ -1,9 +1,11 @@
-# NEUROSCAN-AI: Machine Learning Pipeline & Architectural Manifesto
+# NEUROSCAN: Machine Learning Pipeline & Architectural Manifesto
 **Project Title:** Clinical Brain MRI Tumor Diagnostic Engine with Explainable AI (Grad-CAM)  
-**Lead Engineer / Researcher:** Dar Rehan Rasool  
-**Collaborator / Student:** Shafiya Pampori  
+**Faculty Supervisor:** Dr. Syed Wajid Alam  
+**Lead Developer / Engineer:** Dar Rehan Rasool  
+**Student Contributor:** Shafiya Pampori  
+**Institution:** Islamic University of Science and Technology (IUST)  
 **Repository:** [github.com/darrehanrasool/Neuroscan](https://github.com/darrehanrasool/Neuroscan)  
-**Date:** Academic Defense & Presentation (November 2026)
+**Date:** Academic AI Project Defense (November 2026)
 
 ---
 

@@ -37,20 +37,19 @@ Addressing real-world epidemiology where common high-grade gliomas naturally out
 
 ---
 
-## 👥 Research Team & Authorship
+## 👥 Project Team & Faculty Supervision
 
-This research project and diagnostic benchmark suite is developed under academic supervision:
+This academic AI project is developed under faculty guidance and supervision:
 
-| Role | Name | Designation & Affiliation | Research & Technical Contribution |
+| Role | Name | Designation & Affiliation | Project & Technical Contribution |
 | :--- | :--- | :--- | :--- |
-| **Faculty Research Supervisor** | **Dr. Javad Ahmad\*** | Assistant Professor, Centre of Artificial Intelligence (CAI) | Research Conceptualization, Academic Supervision & Strategic Architectural Direction |
-| **Lead Author & Principal Researcher** | **Dar Rehan Rasool** | Project Lead & Developer, Centre of Artificial Intelligence, IUST | From-Scratch CNN Architecture, Loss Weight Calibration, Grad-CAM Engine, PACS Workstation & Benchmarks |
-| **Contributing Researcher** | **Shafiya Bashir Pampori** | Student Researcher, Centre of Artificial Intelligence, IUST | Dataset Generation & Stratification, Statistical Metric Evaluation & Clinical Radiology Verification |
+| **Faculty Supervisor** | **Dr. Syed Wajid Alam\*** | Faculty Supervisor, Islamic University of Science and Technology (IUST) | Project Guidance, Academic Supervision & Review |
+| **Lead Developer & Engineer** | **Dar Rehan Rasool** | Developer & Student, IUST | From-Scratch CNN Architecture, Loss Weight Calibration, Grad-CAM Engine, PACS Workstation & Benchmarks |
+| **Student Contributor** | **Shafiya Pampori** | Student Researcher, IUST | Dataset Generation & Stratification, Statistical Metric Evaluation & Clinical Radiology Verification |
 
-- **Academic Unit**: Centre of Artificial Intelligence (CAI)
 - **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India
 - **Author Profiles**: [GitHub: @darrehanrasool](https://github.com/darrehanrasool)
-- *\* Denotes corresponding/supervising faculty author.*
+- *\* Denotes supervising faculty.*
 
 ---
 
@@ -385,28 +384,26 @@ We welcome community collaboration, academic discussions, and defensive contribu
 
 ## 📜 Intellectual Property & License
 
-This project is licensed under the **Strict Academic & Non-Commercial Research Evaluation License (All Rights Reserved)**.
-- **Copyright:** © 2026 Dr. Javad Ahmad, Dar Rehan Rasool, and Shafiya Bashir Pampori.
-- **Affiliation:** Centre of Artificial Intelligence (CAI), Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India.
-- **Commercial Use:** Strictly Prohibited. No commercial packaging, incorporation into commercial PACS appliances, or healthcare monetization is permitted without an executed licensing agreement.
+This project is licensed under the **Academic AI Project Evaluation License (All Rights Reserved)**.
+- **Copyright:** © 2026 Dr. Syed Wajid Alam, Dar Rehan Rasool, and Shafiya Pampori.
+- **Affiliation:** Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India.
+- **Commercial Use:** Prohibited without written permission.
 - See the full terms in [LICENSE](LICENSE).
 
 ---
 
-## 📖 Citation & Intellectual Property
+## 📖 Citation & Academic Attribution
 
 ```bibtex
-@article{rasool2026neuroscan,
+@misc{rasool2026neuroscan,
   title={NEUROSCAN: Clinical Brain MRI Tumor Diagnostic Engine with Explainable AI (Grad-CAM) and From-Scratch Convolutional Architecture},
-  author={Rasool, Dar Rehan and Pampori, Shafiya Bashir and Ahmad, Dr. Javad*},
-  affiliation={Centre of Artificial Intelligence (CAI), Islamic University of Science and Technology (IUST), Kashmir, India},
-  journal={IEEE Transactions on Medical Imaging / Zenodo},
+  author={Rasool, Dar Rehan and Pampori, Shafiya and Alam, Dr. Syed Wajid*},
+  affiliation={Islamic University of Science and Technology (IUST), Kashmir, India},
   year={2026},
-  doi={10.5281/zenodo.neuroscan},
   url={https://github.com/darrehanrasool/Neuroscan},
-  note={Copyright \copyright 2026 Dar Rehan Rasool (@darrehanrasool). All Rights Reserved.}
+  note={AI Course Project under Faculty Supervision of Dr. Syed Wajid Alam. Copyright \copyright 2026 Dar Rehan Rasool (@darrehanrasool). All Rights Reserved.}
 }
 ```
 
 **Copyright © 2026 Dar Rehan Rasool ([@darrehanrasool](https://github.com/darrehanrasool)). All Rights Reserved.**  
-Supervised by **Dr. Javad Ahmad\***, Centre of Artificial Intelligence (CAI), Islamic University of Science and Technology (IUST).
+Supervised by **Dr. Syed Wajid Alam\***, Islamic University of Science and Technology (IUST).

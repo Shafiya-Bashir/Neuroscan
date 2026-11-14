@@ -49,7 +49,7 @@ class NumberedCanvas(canvas.Canvas):
 
         # Header (Pages > 1)
         if self._pageNumber > 1:
-            self.drawString(54, letter[1] - 36, "NEUROSCAN — Academic ML Pipeline & Architectural Dossier")
+            self.drawString(54, letter[1] - 36, "NEUROSCAN — AI Project Dossier (Supervised by Dr. Syed Wajid Alam)")
             self.drawRightString(letter[0] - 54, letter[1] - 36, "Dar Rehan Rasool & Shafiya Pampori")
             self.setStrokeColor(colors.HexColor("#cbd5e1"))
             self.setLineWidth(0.5)
@@ -58,7 +58,7 @@ class NumberedCanvas(canvas.Canvas):
         # Footer (All Pages)
         text = f"Page {self._pageNumber} of {page_count}"
         self.drawRightString(letter[0] - 54, 30, text)
-        self.drawString(54, 30, "Confidential • IUST Academic Defense & Presentation • github.com/darrehanrasool/Neuroscan")
+        self.drawString(54, 30, "IUST Academic AI Project • Under Faculty Dr. Syed Wajid Alam • github.com/darrehanrasool/Neuroscan")
         self.setStrokeColor(colors.HexColor("#cbd5e1"))
         self.setLineWidth(0.5)
         self.line(54, 42, letter[0] - 54, 42)
@@ -166,11 +166,11 @@ def build_pdf():
     story.append(HRFlowable(width="100%", thickness=1.5, color=accent_color, spaceAfter=12))
 
     meta_data = [
-        [Paragraph("Lead Developer / Engineer:", meta_label), Paragraph("Dar Rehan Rasool", meta_val),
+        [Paragraph("Faculty Supervisor:", meta_label), Paragraph("Dr. Syed Wajid Alam", meta_val),
          Paragraph("Deep Learning Framework:", meta_label), Paragraph("PyTorch 2.14.0 (Custom CNN)", meta_val)],
-        [Paragraph("Student Researcher:", meta_label), Paragraph("Shafiya Pampori", meta_val),
+        [Paragraph("Lead Developer / Student:", meta_label), Paragraph("Dar Rehan Rasool", meta_val),
          Paragraph("Hardware Acceleration:", meta_label), Paragraph("Apple Silicon MPS GPU (Unified)", meta_val)],
-        [Paragraph("Target Neoplasms:", meta_label), Paragraph("Glioma, Meningioma, Pituitary, Normal", meta_val),
+        [Paragraph("Student Contributor:", meta_label), Paragraph("Shafiya Pampori", meta_val),
          Paragraph("Live Git Repository:", meta_label), Paragraph("github.com/darrehanrasool/Neuroscan", meta_val)]
     ]
     t_meta = Table(meta_data, colWidths=[130, 130, 120, 124])

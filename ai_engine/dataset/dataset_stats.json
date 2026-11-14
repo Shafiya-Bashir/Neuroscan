@@ -1,0 +1,52 @@
+{
+  "classes": [
+    "glioma",
+    "meningioma",
+    "notumor",
+    "pituitary"
+  ],
+  "raw_counts": {
+    "glioma": 180,
+    "meningioma": 140,
+    "notumor": 120,
+    "pituitary": 80
+  },
+  "split_ratios": {
+    "train": 0.7,
+    "val": 0.2,
+    "test": 0.1
+  },
+  "split_counts": {
+    "train": {
+      "glioma": 125,
+      "meningioma": 98,
+      "notumor": 84,
+      "pituitary": 56
+    },
+    "val": {
+      "glioma": 36,
+      "meningioma": 28,
+      "notumor": 24,
+      "pituitary": 16
+    },
+    "test": {
+      "glioma": 19,
+      "meningioma": 14,
+      "notumor": 12,
+      "pituitary": 8
+    },
+    "total": {
+      "glioma": 180,
+      "meningioma": 140,
+      "notumor": 120,
+      "pituitary": 80
+    }
+  },
+  "class_weights": {
+    "glioma": 0.726,
+    "meningioma": 0.926,
+    "notumor": 1.0804,
+    "pituitary": 1.6205
+  },
+  "imbalance_ratio": 2.23
+}

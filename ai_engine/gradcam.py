@@ -1,27 +1,23 @@
+"""
+NEUROSCAN-AI: PyTorch Autograd Grad-CAM (Gradient-Weighted Class Activation Mapping)
+Author: Dar Rehan Rasool
+Extracts activation gradients from convolutional layers to produce interpretability heatmaps.
+"""
+
 import torch
 import torch.nn.functional as F
 import numpy as np
+from PIL import Image
+import matplotlib.cm as cm
 
 class GradCAM:
-    """
-    Gradient-weighted Class Activation Mapping (Grad-CAM) implementation in PyTorch.
-    
-    Computes coarse 2D visual explanations of decisions from convolutional neural networks.
-    Mathematical Formulation:
-      alpha_k^c = (1 / Z) * sum_i sum_j (d y^c / d A_ij^k)
-      L_GradCAM^c = ReLU( sum_k alpha_k^c * A^k )
-    """
     def __init__(self, model: torch.nn.Module, target_layer: torch.nn.Module):
         self.model = model
         self.target_layer = target_layer
-        
-        self.activations = None
         self.gradients = None
+        self.activations = None
         
-        # Register PyTorch autograd hooks
-        self._register_hooks()
-        
-    def _register_hooks(self):
+        # Register forward and backward hooks to capture intermediate feature maps and gradients
         def forward_hook(module, input, output):
             self.activations = output.detach()
             
@@ -34,13 +30,6 @@ class GradCAM:
     def generate(self, input_tensor: torch.Tensor, target_class: int = None) -> np.ndarray:
         """
         Executes forward & backward pass to compute Grad-CAM activation heatmap.
-        
-        Args:
-            input_tensor: PyTorch tensor of shape [1, 3, H, W]
-            target_class: Index of target class (if None, uses argmax predicted class)
-            
-        Returns:
-            heatmap: 2D numpy array [H, W] normalized between 0.0 and 1.0
         """
         self.model.eval()
         self.model.zero_grad()
@@ -56,7 +45,6 @@ class GradCAM:
         score.backward(retain_graph=True)
         
         # 3. Global Average Pooling on gradients -> alpha weights [C]
-        # Gradients: [1, C, H_feat, W_feat]
         alpha = torch.mean(self.gradients, dim=[2, 3], keepdim=True)
         
         # 4. Weighted combination of activation maps
@@ -82,3 +70,18 @@ class GradCAM:
             cam_np = np.zeros_like(cam_np)
             
         return cam_np
+
+    def overlay_heatmap(self, raw_img: Image.Image, cam: np.ndarray, save_path: str = None, colormap: str = "jet", alpha: float = 0.55) -> Image.Image:
+        """Blends the Grad-CAM activation heatmap over the original MRI scan."""
+        import matplotlib
+        cam_resized = Image.fromarray((cam * 255).astype(np.uint8)).resize(raw_img.size, Image.Resampling.BILINEAR)
+        cam_norm = np.array(cam_resized) / 255.0
+        
+        cmap = matplotlib.colormaps[colormap]
+        heatmap_colored = (cmap(cam_norm)[:, :, :3] * 255).astype(np.uint8)
+        heatmap_img = Image.fromarray(heatmap_colored)
+        
+        overlay = Image.blend(raw_img.convert("RGB"), heatmap_img, alpha=alpha)
+        if save_path:
+            overlay.save(save_path)
+        return overlay

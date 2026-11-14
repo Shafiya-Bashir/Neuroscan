@@ -5,6 +5,7 @@ import { MRICase, PRELOADED_MRI_CASES } from "@/lib/mriData";
 import { medicalAudio } from "@/lib/medicalAudioEngine";
 import { MRIViewer } from "@/components/MRIViewer";
 import { RadiologyReportModal } from "@/components/RadiologyReportModal";
+import { AcademicDefenseModal } from "@/components/AcademicDefenseModal";
 import {
   Activity,
   AlertTriangle,
@@ -24,6 +25,7 @@ import {
   Cpu,
   Mic,
   ArrowRight,
+  BarChart3,
 } from "lucide-react";
 
 export default function Home() {
@@ -41,6 +43,7 @@ export default function Home() {
 
   // Modal Report
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
+  const [showDefenseModal, setShowDefenseModal] = useState<boolean>(false);
 
   // Trigger Sound & Voice upon selecting a case
   const handleSelectCase = (mriCase: MRICase) => {
@@ -132,10 +135,19 @@ export default function Home() {
           </div>
 
           <div className="flex items-center space-x-3">
+            {/* Academic ML Defense & 10 Figures Button */}
+            <button
+              onClick={() => setShowDefenseModal(true)}
+              className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-lg shadow-cyan-950/40 transition-all cursor-pointer"
+            >
+              <BarChart3 className="w-3.5 h-3.5" />
+              <span>Academic Defense & 10 Figures</span>
+            </button>
+
             {/* Export Clinical PDF Report Button */}
             <button
               onClick={() => setShowReportModal(true)}
-              className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white shadow-lg shadow-cyan-950/50 border border-cyan-400/40 transition-all"
+              className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white shadow-lg shadow-cyan-950/50 border border-cyan-400/40 transition-all cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>Export Signed Clinical Report</span>
@@ -496,6 +508,12 @@ export default function Home() {
           onClose={() => setShowReportModal(false)}
         />
       )}
+
+      {/* Academic ML Defense & 10 Figures Modal */}
+      <AcademicDefenseModal
+        isOpen={showDefenseModal}
+        onClose={() => setShowDefenseModal(false)}
+      />
     </div>
   );
 }

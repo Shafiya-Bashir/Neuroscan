@@ -131,12 +131,12 @@ export function AcademicDefenseModal({ isOpen, onClose }: AcademicDefenseModalPr
 
           <div className="flex items-center space-x-3">
             <a
-              href="/NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
-              download="NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              href="/Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf"
+              download="Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf"
               className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white shadow-md shadow-cyan-900/40 border border-cyan-400/40 transition"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Download Official PDF Dossier</span>
+              <span>Download Master Report PDF (17 Pages)</span>
             </a>
 
             <button
@@ -548,16 +548,16 @@ export function AcademicDefenseModal({ isOpen, onClose }: AcademicDefenseModalPr
         <div className="px-6 py-3 bg-slate-950/90 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
           <div className="flex items-center space-x-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>Complete 9-page dossier generated: <code className="text-cyan-300">NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf</code></span>
+            <span>Complete 17-page master report generated: <code className="text-cyan-300">Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf</code></span>
           </div>
           <div className="flex items-center space-x-3">
             <a
-              href="/NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
-              download="NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              href="/Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf"
+              download="Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf"
               className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600/90 hover:bg-emerald-500 text-white shadow-md shadow-emerald-950/40 border border-emerald-400/40 transition"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Download PDF (9 Pages)</span>
+              <span>Download Master PDF (17 Pages)</span>
             </a>
             <button
               onClick={onClose}

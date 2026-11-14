@@ -375,7 +375,7 @@ npm run dev
 npm run build
 npm start
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser. Click **"Download ML Dossier PDF"** to obtain the 9-page dossier, or click **"Academic Defense & 10 Figures"** to open the interactive presentation modal.
+Open [http://localhost:3000](http://localhost:3000) in your browser. Click **"Download Master Learning Report PDF (17 Pages)"** to obtain the publication-grade comprehensive master report (`Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf`), or click **"Academic Defense & 10 Figures"** to open the interactive presentation modal.
 
 ---
 

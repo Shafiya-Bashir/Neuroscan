@@ -136,14 +136,14 @@ export default function Home() {
           </div>
 
           <div className="flex items-center space-x-3">
-            {/* Download PDF Dossier Button */}
+            {/* Download Master Report PDF Button */}
             <a
-              href="/NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
-              download="NEUROSCAN_COMPLETE_ML_PIPELINE_DOSSIER.pdf"
+              href="/Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf"
+              download="Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf"
               className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/50 shadow-lg shadow-emerald-950/40 transition-all cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Download ML Dossier PDF</span>
+              <span>Download Master Learning Report PDF (17 Pages)</span>
             </a>
 
             {/* Academic ML Defense & 10 Figures Button */}

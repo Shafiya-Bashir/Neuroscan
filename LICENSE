@@ -1,0 +1,53 @@
+STRICT ACADEMIC & NON-COMMERCIAL RESEARCH EVALUATION LICENSE
+============================================================
+
+Copyright (c) 2026:
+- Dr. Javad Ahmad (Faculty Supervisor & Contributor)
+- Dar Rehan Rasool (Project Lead & Author)
+- Shafiya Bashir Pampori (Contributing Researcher)
+
+Centre of Artificial Intelligence (CAI)
+Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India
+
+ALL RIGHTS RESERVED.
+
+By accessing, viewing, cloning, or downloading this repository and its associated software, models, 
+architecture designs, benchmarks, documentation, weights, or datasets (collectively referred to as the "Software"), 
+you acknowledge and agree to be bound by the following terms and conditions:
+
+1. INTELLECTUAL PROPERTY & OWNERSHIP
+-----------------------------------
+The Software represents original, proprietary research and development conducted at the Centre of Artificial 
+Intelligence (CAI), Islamic University of Science and Technology (IUST). All title, ownership rights, patents, 
+copyrights, and intellectual property rights in and to the Software remain solely and exclusively with the 
+copyright holders named above.
+
+2. PERMITTED NON-COMMERCIAL ACADEMIC EVALUATION
+----------------------------------------------
+Permission is granted exclusively to individuals and academic institutions to:
+(a) Inspect and read the source code for educational, reproducibility, and peer-review evaluation purposes.
+(b) Run the benchmark scripts, training pipelines, and evaluation suites locally for non-commercial academic validation.
+
+3. STRICT PROHIBITION OF COMMERCIAL USE
+--------------------------------------
+NO COMMERCIAL USE IS PERMITTED. You may NOT:
+(a) Sell, rent, lease, license, sub-license, or monetize the Software or any portion or derivative thereof.
+(b) Incorporate, package, bundle, or embed the Software into any commercial product, service, SaaS offering, 
+    clinical PACS diagnostic appliance, or hospital radiology infrastructure.
+(c) Use the Software to provide paid diagnostic consultation, radiology second-opinion services, or commercial healthcare 
+    offerings without an explicit, executed commercial licensing agreement signed by the copyright holders and IUST.
+
+4. ACADEMIC CITATION REQUIREMENT
+-------------------------------
+Any academic publication, preprint, dissertation, thesis, presentation, or technical report utilizing, 
+referencing, or evaluating this Software, methodology, architecture, or benchmark results MUST cite the original work 
+using the citation metadata provided in CITATION.cff and the official project repository.
+
+5. NO CLINICAL WARRANTY & DISCLAIMER
+-----------------------------------
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
+THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR RADIOLOGICAL PURPOSE, AND NONINFRINGEMENT. IN NO EVENT 
+SHALL THE AUTHORS, RESEARCHERS, OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, MEDICAL DECISIONS, OR OTHER 
+LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THIS SYSTEM IS DESIGNED SOLELY FOR ACADEMIC BENCHMARKING AND RESEARCH EVALUATION AND DOES NOT CONSTITUTE A CERTIFIED 
+MEDICAL DEVICE.

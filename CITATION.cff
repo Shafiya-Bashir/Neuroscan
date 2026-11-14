@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, methodology, architecture, or codebase in your academic research, please cite it as below."
+title: "NEUROSCAN: Clinical Brain MRI Tumor Diagnostic Engine with Explainable AI (Grad-CAM) and From-Scratch Convolutional Architecture"
+version: 1.0.0
+date-released: 2026-11-14
+url: "https://github.com/darrehanrasool/Neuroscan"
+repository-code: "https://github.com/darrehanrasool/Neuroscan"
+license: "LicenseRef-Strict-Academic-Research"
+type: software
+authors:
+  - family-names: "Rasool"
+    given-names: "Dar Rehan"
+    affiliation: "Centre of Artificial Intelligence (CAI), Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India"
+    email: "rehanrasool@iust.ac.in"
+  - family-names: "Pampori"
+    given-names: "Shafiya Bashir"
+    affiliation: "Centre of Artificial Intelligence (CAI), Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India"
+  - family-names: "Ahmad"
+    given-names: "Dr. Javad"
+    affiliation: "Assistant Professor, Centre of Artificial Intelligence (CAI), Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India"
+    role: "Faculty Supervisor & Principal Investigator"
+keywords:
+  - "Brain MRI Neoplasms"
+  - "Glioblastoma Multiforme"
+  - "Meningioma"
+  - "Pituitary Adenoma"
+  - "Explainable AI (XAI)"
+  - "Grad-CAM"
+  - "Deep Learning"
+  - "Convolutional Neural Networks"
+  - "Class Imbalance Resolution"
+  - "Metal Performance Shaders (MPS)"
+  - "Apple Silicon GPU"
+abstract: "NEUROSCAN is an enterprise-grade clinical neuro-radiology platform and academic benchmarking suite for autonomous brain tumor neoplasm classification and lesion localization in T1 contrast-enhanced axial MRI scans. Powered by a 100% from-scratch 4-stage convolutional neural network initialized via Kaiming (He) Normal variance, NEUROSCAN eliminates transfer learning shortcuts while resolving real-world clinical cohort imbalances (2.23:1) through a two-tier defense: WeightedRandomSampler mini-batch balancing and inverse class frequency cross-entropy loss weights. Gradient-Weighted Class Activation Mapping (Grad-CAM) provides transparent visual saliency overlays, validated on an untouched 10% test cohort achieving 100% sensitivity."

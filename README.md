@@ -100,16 +100,16 @@ Evaluated on the **untouched 15% holdout test set ($N=90$ patients)** with zero 
 | **Holdout Test Set ($N=90$)** | **Overall Accuracy** | **94.44%** | 85/90 correct diagnoses on challenging multi-class holdout scans |
 | Holdout Test Set ($N=90$) | **Cohen's Kappa ($\kappa$)** | **0.9247** | High inter-rater agreement matching board-certified neuroradiologists |
 | Holdout Test Set ($N=90$) | **Macro-Averaged F1** | **94.38%** | Unweighted harmonic mean treating minority classes equally |
-| Holdout Test Set ($N=90$) | **Weighted-Averaged F1**| **94.42%** | Prevalence-weighted diagnostic harmonic mean across all 90 cases |
+| Holdout Test Set ($N=90$) | **Weighted-Averaged F1** | **94.42%** | Prevalence-weighted diagnostic harmonic mean across all 90 cases |
 | Holdout Test Set ($N=90$) | **Macro AUROC** | **0.9994** | Multi-class One-vs-Rest discriminative capacity across operating thresholds |
-| **Glioma Cohort ($N=30$)** | **Sensitivity (Recall)**| **96.67%** | 29/30 detected (1 borderline non-enhancing astrocytoma subtle at margin) |
+| **Glioma Cohort ($N=30$)** | **Sensitivity (Recall)** | **96.67%** | 29/30 detected (1 borderline non-enhancing astrocytoma subtle at margin) |
 | Glioma Cohort ($N=30$) | **Specificity** | **96.67%** | High precision: minimal false alarms from non-glial pathologies |
-| **Meningioma Cohort ($N=23$)**| **Sensitivity (Recall)**| **91.30%** | 21/23 detected (2 atypical cases with edema shared differential with glioma) |
+| **Meningioma Cohort ($N=23$)** | **Sensitivity (Recall)** | **91.30%** | 21/23 detected (2 atypical cases with edema shared differential with glioma) |
 | Meningioma Cohort ($N=23$) | **Specificity** | **98.51%** | Extra-axial mass with dural tail accurately segregated |
 | **Healthy Cohort ($N=19$)** | **Specificity (TNR)** | **97.18%** | Zero unnecessary surgical panic: 19/19 normal brains confirmed healthy |
-| **Pituitary Cohort ($N=18$)** | **Sensitivity (Recall)**| **88.89%** | 16/18 detected (1 microadenoma <5mm and 1 suprasellar sphenoid case) |
+| **Pituitary Cohort ($N=18$)** | **Sensitivity (Recall)** | **88.89%** | 16/18 detected (1 microadenoma <5mm and 1 suprasellar sphenoid case) |
 | **Stratified Split Setup** | **Train / Val / Test** | **70% / 15% / 15%** | $N_{train}=420$, $N_{val}=90$, $N_{test}=90$ |
-| **Class Imbalance Ratio** | **Max / Min Prevalence**| **1.67 : 1** | Glioma ($N=200$) vs. Pituitary ($N=120$) resolved via inverse weights |
+| **Class Imbalance Ratio** | **Max / Min Prevalence** | **1.67 : 1** | Glioma ($N=200$) vs. Pituitary ($N=120$) resolved via inverse weights |
 
 ---
 
@@ -257,7 +257,7 @@ Heterogeneous infiltrative mass displaying peripheral nodular contrast enhanceme
 ![Glioma Demo](public/sample_mri/demo_glioma.png)
 
 ### 2. Dural Convexity Meningioma (Extra-Axial Neoplasm - WHO Grade I/II)
-Sharply circumscribed extra-axial lesion displaying vivid homogenous contrast enhancement, displacement of adjacent cerebral cortex, and pathognomonic dural tail sign.
+Sharply circumscribed extra-axial lesion displaying vivid homogeneous contrast enhancement, displacement of adjacent cerebral cortex, and pathognomonic dural tail sign.
 ![Meningioma Demo](public/sample_mri/demo_meningioma.png)
 
 ### 3. Pituitary Macroadenoma (Sellar / Suprasellar Neoplasm)
@@ -277,7 +277,7 @@ Production output from `python3 src/models/predict_model.py`:
 
 ---
 
-## 🖥️ Interactive Web UI: Multi-Class Diagnostic Outputs & Difference Visualisation
+## 🖥️ Interactive Web UI: Multi-Class Diagnostic Outputs & Difference Visualization
 
 The Next.js workstation provides an enterprise-grade clinical neuroradiology console with real-time AI inference, voice briefings, and difference mapping. Below are the authentic UI outputs across all four clinical cohorts:
 
@@ -311,11 +311,11 @@ The workstation integrates several advanced clinical tools designed for real rad
    - Click the glowing **"Upload MRI Scan"** button in the header or **"+ Upload New Scan"** in the patient selector to upload any external axial MRI scan (.png, .jpg, .dicom).
    - Includes 1-click quick-test demo presets for Glioma, Meningioma, Pituitary, and Normal Brain.
    - Automatically executes forward inference, Grad-CAM attribution, difference extraction, voice narration, and generates a medical report PDF for the uploaded scan.
-2. **Four Advanced Visualisation Modes:**
+2. **Four Advanced Visualization Modes:**
    - **Fused Grad-CAM Overlay:** Blends the neural activation gradient over the MRI with opacity wiping slider ($0\% \longleftrightarrow 100\%$).
    - **Difference Map (Lesion Delta):** Subtracts healthy baseline parenchyma to spotlight the detected pathological lesion in vivid contrast (neon green / cyan difference map).
    - **Detected Portion Spotlight:** Darkens unaffected brain regions, spotlighting strictly the detected portion of the brain where the tumor is localized, with bounding reticle, centroid marker $[X: 162, Y: 136]$, area, and region callout tag.
-   - **Interactive Split-Screen Wiper:** A draggable horizontal slider dividing the canvas to compare Raw Unaltered MRI on the left $\longleftrightarrow$ AI Detection and Difference Map on the right!
+   - **Interactive Split-Screen Wiper:** A draggable horizontal slider dividing the canvas to compare Raw Unaltered MRI on the left $\longleftrightarrow$ AI Detection and Difference Map on the right.
 3. **Spoken Radiology Audio Briefing:**
    - Real-time clinical voice synthesis using Web Speech API that speaks the formal diagnosis, detected brain portion, cross-sectional tumor area, and recommended surgical next steps.
    - Live audio waveform visualizer and Play / Stop / Replay controls.

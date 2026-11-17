@@ -371,7 +371,7 @@ Open your browser and navigate to `http://localhost:3000`.
 ## 👥 Authors & Academic Affiliation
 
 - **Lead Developer & ML Engineer:** **Dar Rehan Rasool**
-- **Student Contributor:** **Shafiya Pampori**
+- **Student Contributor:** [**Shafiya Pampori** (@Shafiya-Bashir)](https://github.com/Shafiya-Bashir)
 - **Faculty Supervisor:** **Dr. Syed Wajid Alam** (Assistant Professor, Department of Artificial Intelligence, IUST)
 - **Institution:** Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India
 

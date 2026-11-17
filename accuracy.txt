@@ -6,6 +6,7 @@ Generated At: 2026-11-17 19:23:00 UTC
 Author: Dar Rehan Rasool
 Target Hardware: Apple Silicon Metal Performance Shaders (MPS) / PyTorch
 Zero Data Leakage Status: VERIFIED & SEALED (Train 70% | Val 15% | Test 15%)
+Regulatory Notice: ACADEMIC RESEARCH DEMONSTRATION ONLY (RUO - Not for Clinical Diagnosis)
 
 ------------------------------------------------------------------------------------------
 1. EXECUTIVE QUANTITATIVE TEST BENCHMARK

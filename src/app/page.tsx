@@ -164,6 +164,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#03060d] text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
+      {/* Prominent Legal & Medical Regulatory Disclaimer Banner */}
+      <div className="w-full bg-amber-500/10 border-b border-amber-500/25 px-4 py-1.5 text-center text-[11px] text-amber-300 flex items-center justify-center space-x-2">
+        <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+        <span>
+          <strong>ACADEMIC RESEARCH DEMONSTRATION TOOL:</strong> For machine learning engineering & educational evaluation only. <strong>NOT</strong> certified as a diagnostic medical device (SaMD) and <strong>NOT</strong> for clinical diagnosis, patient care, or medical decision-making.
+        </span>
+      </div>
+
       {/* Top Clinical Navigation Bar */}
       <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#060b17]/90 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -708,6 +716,17 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      {/* Regulatory & Institutional Footer */}
+      <footer className="w-full border-t border-slate-900 bg-[#040812] py-4 px-6 text-center text-xs text-slate-500 space-y-1">
+        <p className="font-mono text-[11px] text-amber-400/90 flex items-center justify-center space-x-1.5">
+          <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+          <span>Research Use Only (RUO) • Not Certified as a Medical Device • Not for Primary Clinical Diagnosis</span>
+        </p>
+        <p className="text-[11px] text-slate-500">
+          Developed by Dar Rehan Rasool &amp; Shafiya Pampori • Supervised by Dr. Syed Wajid Alam • Islamic University of Science &amp; Technology (IUST)
+        </p>
+      </footer>
 
       {/* Upload MRI Scan Modal */}
       <UploadMRIModal

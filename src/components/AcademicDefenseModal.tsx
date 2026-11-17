@@ -307,6 +307,23 @@ export const AcademicDefenseModal: React.FC<AcademicDefenseModalProps> = ({ isOp
                   </ol>
                 </div>
               </div>
+
+              {/* Question 4: Medical Disclaimer & Liability Protection */}
+              <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2.5">
+                <div className="flex items-center space-x-2 text-rose-400 font-bold text-xs uppercase tracking-wider font-mono">
+                  <ShieldAlert className="w-4 h-4" />
+                  <span>Faculty Question 4: "Is this tool intended to diagnose real patients? How are you handling medical liability?"</span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-2">
+                  <p className="font-bold text-white">Your Answer to the Professor:</p>
+                  <p className="leading-relaxed">
+                    "Professor, absolutely not. Neuroscan-AI is designed strictly as an <strong>academic machine learning research demonstration and computational engineering proof-of-concept</strong>. It is explicitly categorized as <em>Research Use Only (RUO)</em>."
+                  </p>
+                  <p className="leading-relaxed text-cyan-300">
+                    "In clinical medicine, AI functions exclusively as a Computer-Aided Detection/Diagnosis (CADe/CADx) second-opinion aid under human physician oversight. To prevent any medical liability, our platform features prominent statutory disclaimers across the web interface, the printable PDF reports, and the project documentation stating that this software is not a certified Medical Device (SaMD) and must never be used for primary medical diagnosis or patient treatment planning."
+                  </p>
+                </div>
+              </div>
             </div>
           )}
 

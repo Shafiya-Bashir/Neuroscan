@@ -236,6 +236,14 @@ export const RadiologyReportModal: React.FC<Props> = ({ mriCase, onClose }) => {
             </div>
           </div>
 
+          {/* Statutory Medical & Legal Regulatory Disclaimer */}
+          <div className="mb-5 p-3 rounded-lg bg-amber-50/80 border border-amber-300 text-[10px] text-amber-950 leading-relaxed">
+            <span className="font-bold uppercase tracking-wider block mb-0.5 text-amber-900">
+              ⚠️ Academic Research Demonstration Notice (Research Use Only - RUO)
+            </span>
+            This automated radiology report was compiled by an academic deep convolutional neural network for machine learning research demonstration and engineering evaluation only. It is <strong>NOT</strong> an approved Software as a Medical Device (SaMD) and has not been cleared by FDA/EMA/CDSCO. It must <strong>NOT</strong> be used for primary medical diagnosis, patient care, surgical intervention, or therapeutic decision-making. All clinical determinations must be made by licensed neuroradiologists and medical professionals.
+          </div>
+
           {/* Attestation & Signature Footer */}
           <div className="pt-4 border-t-2 border-slate-900 flex flex-col sm:flex-row justify-between items-start sm:items-end text-xs gap-4">
             <div>

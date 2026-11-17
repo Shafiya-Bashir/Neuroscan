@@ -145,30 +145,45 @@ def create_authentic_brain_mri(label: str, seed: int, scan_id: str):
         "area_mm2": 0
     }
 
-    # 10. Pathological Lesion Injection
+    # 10. Pathological Lesion Injection & Diagnostic Difficulty Stratification
+    # In authentic clinical practice, 10-15% of tumors exhibit borderline morphology:
+    # - Low-grade diffuse gliomas lack necrotic cavities and have faint, infiltrative signal
+    # - Atypical meningiomas exhibit brain parenchymal invasion & lack pathognomonic dural tails
+    # - Pituitary microadenomas are tiny (<10mm) and intrasellar
+    # - Healthy brains frequently harbor physiological choroid plexus calcifications or periventricular leukoaraiosis
+    difficulty = py_rng.choices(["classic", "borderline_atypical"], weights=[0.88, 0.12])[0]
+
     if label == "glioma":
-        # Infiltrative parenchymal tumor (can be in any hemisphere or lobe!)
         side = py_rng.choice([-1, 1])
-        tx = cx + side * py_rng.uniform(25, 55)
+        tx = cx + side * py_rng.uniform(22, 58)
         ty = cy + py_rng.uniform(-45, 45)
-        rad = py_rng.uniform(16, 28)
 
         region = "Right Frontal Lobe" if (side > 0 and ty < cy) else \
                  "Right Parietotemporal" if (side > 0) else \
                  "Left Frontotemporal" if (ty < cy) else "Left Parietal Lobe"
 
-        # Vasogenic edema halo (hypodense on T1 / hyperdense on T2)
-        draw.ellipse([tx - rad * 1.5, ty - rad * 1.4, tx + rad * 1.5, ty + rad * 1.4], fill=py_rng.randint(60, 85))
-
-        # Irregular infiltrative nodular mass (T1-CE hyperintense peripheral contrast rim)
-        points = []
-        for a in np.linspace(0, 2 * np.pi, 18, endpoint=False):
-            r_jitter = rad * py_rng.uniform(0.75, 1.25)
-            points.append((tx + np.cos(a) * r_jitter, ty + np.sin(a) * r_jitter))
-        draw.polygon(points, fill=py_rng.randint(195, 235))
-
-        # Central necrotic core (hypointense non-enhancing fluid)
-        draw.ellipse([tx - rad * 0.45, ty - rad * 0.4, tx + rad * 0.45, ty + rad * 0.4], fill=py_rng.randint(25, 45))
+        if difficulty == "classic":
+            # High-Grade Glioblastoma (GBM): necrotic core + hyperintense peripheral contrast rim + vasogenic edema
+            rad = py_rng.uniform(16, 28)
+            # Vasogenic edema halo
+            draw.ellipse([tx - rad * 1.5, ty - rad * 1.4, tx + rad * 1.5, ty + rad * 1.4], fill=py_rng.randint(60, 85))
+            # Irregular infiltrative nodular mass
+            points = []
+            for a in np.linspace(0, 2 * np.pi, 18, endpoint=False):
+                r_jitter = rad * py_rng.uniform(0.75, 1.25)
+                points.append((tx + np.cos(a) * r_jitter, ty + np.sin(a) * r_jitter))
+            draw.polygon(points, fill=py_rng.randint(195, 235))
+            # Central necrotic core
+            draw.ellipse([tx - rad * 0.45, ty - rad * 0.4, tx + rad * 0.45, ty + rad * 0.4], fill=py_rng.randint(25, 45))
+        else:
+            # Borderline: Low-Grade Diffuse / Non-enhancing Astrocytoma
+            # Faint hyperintensity, subtle mass effect, NO necrotic cavity, ill-defined margins
+            rad = py_rng.uniform(10, 16)
+            points = []
+            for a in np.linspace(0, 2 * np.pi, 12, endpoint=False):
+                r_jitter = rad * py_rng.uniform(0.85, 1.15)
+                points.append((tx + np.cos(a) * r_jitter, ty + np.sin(a) * r_jitter))
+            draw.polygon(points, fill=py_rng.randint(110, 145))
 
         lesion_info = {
             "detected": True,
@@ -180,7 +195,6 @@ def create_authentic_brain_mri(label: str, seed: int, scan_id: str):
         }
 
     elif label == "meningioma":
-        # Extra-axial dural-based mass (convexity or parasagittal)
         loc_choice = py_rng.choice(["left_dural", "right_dural", "parasagittal", "sphenoid"])
         if loc_choice == "left_dural":
             tx = cx - rx + py_rng.uniform(14, 25)
@@ -199,14 +213,20 @@ def create_authentic_brain_mri(label: str, seed: int, scan_id: str):
             ty = cy + py_rng.uniform(15, 40)
             region = "Sphenoid Ridge"
 
-        rad = py_rng.uniform(14, 22)
-
-        # Well-circumscribed, homogeneously hyperintense lesion
-        draw.ellipse([tx - rad, ty - rad, tx + rad, ty + rad], fill=py_rng.randint(215, 250))
-
-        # Pathognomonic Dural Tail Sign (linear enhancing dural thickening)
-        tail_dx = -15 if tx < cx else 15
-        draw.line([tx, ty, tx + tail_dx, ty - 12], fill=py_rng.randint(185, 220), width=3)
+        if difficulty == "classic":
+            # Classic Benign Meningioma (WHO Grade I): Well-circumscribed with Dural Tail Sign
+            rad = py_rng.uniform(14, 22)
+            draw.ellipse([tx - rad, ty - rad, tx + rad, ty + rad], fill=py_rng.randint(215, 250))
+            tail_dx = -15 if tx < cx else 15
+            draw.line([tx, ty, tx + tail_dx, ty - 12], fill=py_rng.randint(185, 220), width=3)
+        else:
+            # Borderline: Atypical Meningioma (WHO Grade II) with parenchymal invasion & extensive edema
+            # Lacks clean dural tail; lobulated margin and prominent edema mimic an infiltrative glioma
+            rad = py_rng.uniform(16, 24)
+            # Extensive peritumoral edema halo (simulates glioma overlap)
+            draw.ellipse([tx - rad * 1.4, ty - rad * 1.3, tx + rad * 1.4, ty + rad * 1.3], fill=py_rng.randint(65, 90))
+            # Lobulated mass with heterogeneous enhancement
+            draw.ellipse([tx - rad, ty - rad, tx + rad, ty + rad], fill=py_rng.randint(180, 215))
 
         lesion_info = {
             "detected": True,
@@ -218,16 +238,20 @@ def create_authentic_brain_mri(label: str, seed: int, scan_id: str):
         }
 
     elif label == "pituitary":
-        # Sellar and suprasellar adenoma (located at skull base, midline / parasellar)
         tx = cx + py_rng.uniform(-6, 6)
         ty = cy + py_rng.uniform(14, 28)
-        rad = py_rng.uniform(10, 16)
         region = "Sellar Fossa & Suprasellar Cistern"
 
-        # Expanded sella mass with suprasellar waist
-        draw.ellipse([tx - rad * 1.1, ty - rad, tx + rad * 1.1, ty + rad], fill=py_rng.randint(180, 220))
-        # Suprasellar extension (snowman morphology)
-        draw.ellipse([tx - rad * 0.75, ty - rad * 1.5, tx + rad * 0.75, ty - rad * 0.3], fill=py_rng.randint(170, 210))
+        if difficulty == "classic":
+            # Classic Pituitary Macroadenoma: Sellar expansion + suprasellar dumbbell/snowman waist
+            rad = py_rng.uniform(11, 17)
+            draw.ellipse([tx - rad * 1.1, ty - rad, tx + rad * 1.1, ty + rad], fill=py_rng.randint(180, 220))
+            draw.ellipse([tx - rad * 0.75, ty - rad * 1.5, tx + rad * 0.75, ty - rad * 0.3], fill=py_rng.randint(170, 210))
+        else:
+            # Borderline: Intrasellar Microadenoma (<10mm)
+            # Confined to sella turcica, no suprasellar extension, subtle focal hypointensity on contrast T1
+            rad = py_rng.uniform(5, 8)
+            draw.ellipse([tx - rad, ty - rad, tx + rad, ty + rad], fill=py_rng.randint(145, 175))
 
         lesion_info = {
             "detected": True,
@@ -239,8 +263,18 @@ def create_authentic_brain_mri(label: str, seed: int, scan_id: str):
         }
 
     else:
-        # Healthy: No tumor
+        # Healthy: No neoplasm
         region = "Normal Intracranial Parenchyma"
+
+        # 12% of healthy scans harbor physiological variants (choroid plexus calcification, periventricular leukoaraiosis)
+        if difficulty == "borderline_atypical":
+            # Benign asymmetric choroid plexus glomus calcification in trigone of lateral ventricle
+            c_side = py_rng.choice([-1, 1])
+            c_x = cx + c_side * py_rng.uniform(16, 26)
+            c_y = cy + py_rng.uniform(12, 24)
+            c_rad = py_rng.uniform(3, 5)
+            draw.ellipse([c_x - c_rad, c_y - c_rad, c_x + c_rad, c_y + c_rad], fill=py_rng.randint(130, 165))
+
         lesion_info = {
             "detected": False,
             "region": region,

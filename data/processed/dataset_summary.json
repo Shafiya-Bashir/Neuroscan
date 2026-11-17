@@ -51,32 +51,32 @@
     "imbalance_ratio": 1.667,
     "intensity_stats": {
       "glioma": {
-        "mean_intensity": 60.83,
-        "std_intensity": 57.61,
-        "snr_db": 0.47,
+        "mean_intensity": 60.97,
+        "std_intensity": 57.81,
+        "snr_db": 0.46,
         "min": 0,
-        "max": 252
+        "max": 247
       },
       "meningioma": {
-        "mean_intensity": 61.78,
-        "std_intensity": 59.33,
-        "snr_db": 0.35,
+        "mean_intensity": 61.72,
+        "std_intensity": 59.15,
+        "snr_db": 0.37,
         "min": 0,
         "max": 255
       },
       "notumor": {
-        "mean_intensity": 60.66,
-        "std_intensity": 55.64,
-        "snr_db": 0.75,
+        "mean_intensity": 60.51,
+        "std_intensity": 55.77,
+        "snr_db": 0.71,
         "min": 0,
-        "max": 161
+        "max": 164
       },
       "pituitary": {
-        "mean_intensity": 62.71,
-        "std_intensity": 58.23,
-        "snr_db": 0.64,
+        "mean_intensity": 62.66,
+        "std_intensity": 58.09,
+        "snr_db": 0.66,
         "min": 0,
-        "max": 227
+        "max": 237
       }
     }
   }

@@ -1,0 +1,6 @@
+{
+  "glioma": 0.75,
+  "meningioma": 1.0,
+  "notumor": 1.1538,
+  "pituitary": 1.25
+}

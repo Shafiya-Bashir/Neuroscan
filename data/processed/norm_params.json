@@ -1,0 +1,17 @@
+{
+  "train_fitted_mean": [
+    0.23369629681110382,
+    0.23369629681110382,
+    0.23369629681110382
+  ],
+  "train_fitted_std": [
+    0.21800436079502106,
+    0.21800436079502106,
+    0.21800436079502106
+  ],
+  "image_size": [
+    256,
+    256
+  ],
+  "normalization_protocol": "Z-Score Standard Normalization (Fitted Strictly on Train)"
+}

@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { MRICase, PRELOADED_MRI_CASES } from "@/lib/mriData";
 import { medicalAudio } from "@/lib/medicalAudioEngine";
-import { MRIViewer } from "@/components/MRIViewer";
+import { MRIViewer, VisualizationMode } from "@/components/MRIViewer";
 import { RadiologyReportModal } from "@/components/RadiologyReportModal";
 import { AcademicDefenseModal } from "@/components/AcademicDefenseModal";
+import { UploadMRIModal } from "@/components/UploadMRIModal";
 import {
   Activity,
   AlertTriangle,
@@ -27,10 +28,22 @@ import {
   ArrowRight,
   BarChart3,
   Download,
+  Scissors,
+  SplitSquareVertical,
+  Crosshair,
+  Radio,
+  Play,
+  Square,
+  PlusCircle
 } from "lucide-react";
 
 export default function Home() {
+  const [casesList, setCasesList] = useState<MRICase[]>(PRELOADED_MRI_CASES);
   const [selectedCase, setSelectedCase] = useState<MRICase>(PRELOADED_MRI_CASES[0]);
+
+  // Advanced Visualization Modes
+  const [visMode, setVisMode] = useState<VisualizationMode>("fused");
+  const [splitPos, setSplitPos] = useState<number>(0.5);
 
   // Grad-CAM Controls
   const [gradCamOpacity, setGradCamOpacity] = useState<number>(0.75);
@@ -41,36 +54,55 @@ export default function Home() {
   // Audio / Voice Controls
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
   const [voiceEnabled, setVoiceEnabled] = useState<boolean>(true);
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+  const [spokenTranscript, setSpokenTranscript] = useState<string>("");
 
-  // Modal Report
+  // Modals
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
   const [showDefenseModal, setShowDefenseModal] = useState<boolean>(false);
+  const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
 
   // Trigger Sound & Voice upon selecting a case
   const handleSelectCase = (mriCase: MRICase) => {
     setSelectedCase(mriCase);
 
+    let speechText = "";
     if (mriCase.severity === "danger") {
       medicalAudio.playMalignantAlarm();
-      if (voiceEnabled) {
-        medicalAudio.speakRadiologyReport(
-          `Critical alert: ${mriCase.diagnosis} identified in ${mriCase.brainRegion} with ${mriCase.confidence}% probability. Significant mass effect observed.`
-        );
-      }
+      speechText = `Critical diagnostic alert: ${mriCase.diagnosis} detected in the ${mriCase.brainRegion} with ${mriCase.confidence}% model confidence. Bounding centroid is located at X ${mriCase.tumorCentroid.x}, Y ${mriCase.tumorCentroid.y}. Significant mass effect noted with ${mriCase.massEffect}.`;
     } else if (mriCase.severity === "warning") {
       medicalAudio.playCautionAlert();
-      if (voiceEnabled) {
-        medicalAudio.speakRadiologyReport(
-          `Warning: ${mriCase.diagnosis} detected in ${mriCase.brainRegion}. Further contrast enhancement recommended.`
-        );
-      }
+      speechText = `Diagnostic caution: ${mriCase.diagnosis} localized in the ${mriCase.brainRegion}. Tumor cross-sectional area is approximately ${mriCase.tumorAreaMm2} square millimeters. Endocrine panel and visual field perimetry recommended.`;
     } else {
       medicalAudio.playHealthyChime();
-      if (voiceEnabled) {
-        medicalAudio.speakRadiologyReport(
-          `Evaluation complete: Normal brain MRI scan. Intracranial structures and ventricular morphology are completely healthy.`
-        );
-      }
+      speechText = `Evaluation complete: Normal brain MRI scan. Intracranial parenchyma, lateral ventricles, and sulcal morphology are completely symmetrical without pathological contrast enhancement.`;
+    }
+
+    setSpokenTranscript(speechText);
+    if (voiceEnabled) {
+      setIsSpeaking(true);
+      medicalAudio.speakRadiologyReport(speechText);
+      setTimeout(() => setIsSpeaking(false), 7000);
+    }
+  };
+
+  const handleUploadSuccess = (newCase: MRICase) => {
+    setCasesList((prev) => [newCase, ...prev.filter((c) => c.id !== newCase.id)]);
+    handleSelectCase(newCase);
+  };
+
+  const handleStopVoice = () => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  };
+
+  const handleReplayVoice = () => {
+    if (spokenTranscript) {
+      setIsSpeaking(true);
+      medicalAudio.speakRadiologyReport(spokenTranscript);
+      setTimeout(() => setIsSpeaking(false), 7000);
     }
   };
 
@@ -98,15 +130,15 @@ export default function Home() {
         };
       case "warning":
         return {
-          label: "LOW-GRADE / CAUTION",
+          label: "ELEVATED NEURO CAUTION",
           color: "bg-amber-950/80 text-amber-400 border-amber-500",
           icon: <AlertTriangle className="w-4 h-4 text-amber-400" />,
         };
       default:
         return {
-          label: "HEALTHY / NEGATIVE",
+          label: "HEALTHY PARENCHYMA",
           color: "bg-emerald-950/80 text-emerald-400 border-emerald-500",
-          icon: <ShieldCheck className="w-4 h-4 text-emerald-400" />,
+          icon: <CheckCircle2 className="w-4 h-4 text-emerald-400" />,
         };
     }
   };
@@ -114,94 +146,110 @@ export default function Home() {
   const badge = getSeverityBadge(selectedCase.severity);
 
   return (
-    <div className="min-h-screen bg-[#050811] text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
-      {/* Top PACS Header Bar */}
-      <header className="border-b border-slate-800 bg-[#080d1c]/95 backdrop-blur-xl px-4 sm:px-6 py-3.5 sticky top-0 z-30 shadow-xl">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+    <div className="min-h-screen bg-[#03060d] text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
+      {/* Top Clinical Navigation Bar */}
+      <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#060b17]/90 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          {/* Logo & Clinical Title */}
           <div className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 shadow-lg shadow-cyan-500/20 text-white font-black text-xl">
-              <Brain className="w-6 h-6" />
+            <div className="relative p-2 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-500/40 shadow-lg shadow-cyan-500/10">
+              <Brain className="w-6 h-6 text-cyan-400 animate-pulse" />
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+              </span>
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h1 className="text-base font-bold tracking-tight text-white">NEUROSCAN</h1>
-                <span className="px-2 py-0.5 text-[10px] font-mono font-semibold bg-cyan-950 text-cyan-300 border border-cyan-500/40 rounded-full">
-                  Explainable AI (XAI) Radiology PACS
+                <h1 className="text-lg font-black tracking-tight text-white font-serif">
+                  NEUROSCAN<span className="text-cyan-400 font-sans font-bold text-sm ml-1.5 px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-800">XAI</span>
+                </h1>
+                <span className="hidden sm:inline-block text-[11px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-800">
+                  Zero Data Leakage Sealed
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400">
-                Deep Learning Brain MRI Classifier & Grad-CAM Neural Attention Workstation
+              <p className="text-[11px] text-slate-400 font-mono hidden sm:block">
+                Multi-Class Neoplastic Brain MRI Diagnostic & Explainability Workstation
               </p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
-            {/* Download Master Report PDF Button */}
-            <a
-              href="/Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf"
-              download="Neuroscan_Brain_Tumor_Diagnostic_Complete_Master_Report.pdf"
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/50 shadow-lg shadow-emerald-950/40 transition-all cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Download Master Learning Report PDF (17 Pages)</span>
-            </a>
-
-            {/* Academic ML Defense & 10 Figures Button */}
+          {/* Right Action Deck */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* UPLOAD MRI SCAN BUTTON (PRIMARY) */}
             <button
-              onClick={() => setShowDefenseModal(true)}
-              className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-lg shadow-cyan-950/40 transition-all cursor-pointer"
+              onClick={() => setShowUploadModal(true)}
+              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg shadow-emerald-900/40 border border-emerald-400/40 transition-all transform hover:scale-[1.02]"
             >
-              <BarChart3 className="w-3.5 h-3.5" />
-              <span>Academic Defense & 10 Figures</span>
+              <Upload className="w-4 h-4 text-white" />
+              <span>Upload MRI Scan</span>
             </button>
 
-            {/* Export Clinical PDF Report Button */}
-            <button
-              onClick={() => setShowReportModal(true)}
-              className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white shadow-lg shadow-cyan-950/50 border border-cyan-400/40 transition-all cursor-pointer"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              <span>Export Signed Clinical Report</span>
-            </button>
-
-            {/* Audio Alarm Sound Toggle */}
+            {/* Audio Toggle */}
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
-              title={soundEnabled ? "Medical Audio Alarms Active" : "Audio Muted"}
-              className={`p-2 rounded-xl border transition-colors ${
+              title={soundEnabled ? "Mute Medical Telemetry" : "Enable Telemetry"}
+              className={`p-2 rounded-xl border transition-all ${
                 soundEnabled
-                  ? "bg-slate-900 text-cyan-400 border-slate-800 hover:border-cyan-500"
-                  : "bg-red-950/40 text-red-400 border-red-900/40"
+                  ? "bg-slate-900 border-slate-700 text-cyan-400 hover:border-cyan-500"
+                  : "bg-slate-950 border-slate-800 text-slate-500"
               }`}
             >
               {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
 
-            {/* Voice Diagnostic Briefing Toggle */}
+            {/* Voice Toggle */}
             <button
               onClick={() => setVoiceEnabled(!voiceEnabled)}
-              title={voiceEnabled ? "Radiology Voice Briefing Active" : "Voice Briefing Muted"}
-              className={`p-2 rounded-xl border transition-colors ${
+              title={voiceEnabled ? "Mute Voice Briefing" : "Enable Voice Briefing"}
+              className={`p-2 rounded-xl border transition-all ${
                 voiceEnabled
-                  ? "bg-slate-900 text-emerald-400 border-slate-800 hover:border-emerald-500"
-                  : "bg-slate-950 text-slate-500 border-slate-800"
+                  ? "bg-cyan-950/60 border-cyan-700 text-cyan-300 shadow-sm shadow-cyan-900/40"
+                  : "bg-slate-950 border-slate-800 text-slate-500"
               }`}
             >
               <Mic className="w-4 h-4" />
+            </button>
+
+            {/* Academic Defense & 12 Figures Modal Button */}
+            <button
+              onClick={() => setShowDefenseModal(true)}
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-purple-950/60 hover:bg-purple-900/80 text-purple-300 border border-purple-700/60 text-xs font-semibold shadow-md transition-all font-mono"
+            >
+              <BarChart3 className="w-4 h-4 text-purple-400" />
+              <span className="hidden md:inline">12 Figures & ML Defense</span>
+            </button>
+
+            {/* Clinical Radiology Report Modal Button */}
+            <button
+              onClick={() => setShowReportModal(true)}
+              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold shadow-lg shadow-cyan-600/30 transition-all"
+            >
+              <FileText className="w-4 h-4" />
+              <span>Medical Report (PDF)</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Patient Case Selector Ribbon */}
-      <section className="border-b border-slate-800/80 bg-[#070b16] px-4 sm:px-6 py-2.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto gap-4">
-          <div className="flex items-center space-x-2">
-            <span className="text-slate-500 text-xs font-mono uppercase tracking-wider mr-1">
+      {/* Cohort Scans Subheader with Upload Button */}
+      <section className="bg-slate-950/90 border-b border-slate-800 px-4 py-2.5">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center space-x-2 overflow-x-auto py-1">
+            <span className="text-xs font-mono font-bold text-slate-400 uppercase mr-1">
               Select Patient Scan:
             </span>
 
-            {PRELOADED_MRI_CASES.map((c) => (
+            {/* Quick Upload Action Pill */}
+            <button
+              onClick={() => setShowUploadModal(true)}
+              className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center space-x-1.5 whitespace-nowrap bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-700/60 shadow-sm"
+            >
+              <PlusCircle className="w-3.5 h-3.5 text-emerald-400" />
+              <span>+ Upload New Scan</span>
+            </button>
+
+            {casesList.map((c) => (
               <button
                 key={c.id}
                 onClick={() => handleSelectCase(c)}
@@ -224,21 +272,24 @@ export default function Home() {
                       : "bg-emerald-400"
                   }`}
                 />
-                <span>{c.diagnosis.split(" (")[0]}</span>
+                <span>
+                  {c.isUploaded ? "Uploaded: " : ""}
+                  {c.diagnosis.split(" (")[0]}
+                </span>
               </button>
             ))}
           </div>
 
           <div className="flex items-center space-x-2 text-xs font-mono text-cyan-400">
             <Cpu className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span>DenseNet-121 Feature Tensor: Online</span>
+            <span>Deep 5-Stage Residual-SE CNN: Online</span>
           </div>
         </div>
       </section>
 
       {/* Main Radiology Workstation Grid */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column: Clinical Diagnosis & Class Probabilities (3.5 cols) */}
+        {/* Left Column: Clinical Diagnosis & Class Probabilities (4 cols) */}
         <aside className="lg:col-span-4 flex flex-col space-y-4">
           {/* Active Diagnostic Status Banner */}
           <div className={`p-4 rounded-2xl border shadow-xl backdrop-blur-xl ${badge.color}`}>
@@ -259,6 +310,47 @@ export default function Home() {
             </p>
           </div>
 
+          {/* AI Radiologist Voice Synthesis Console */}
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-xl space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <div className="flex items-center space-x-2">
+                <Mic className="w-4 h-4 text-cyan-400" />
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+                  Spoken Radiology Briefing
+                </h3>
+              </div>
+              <div className="flex items-center space-x-1.5">
+                {isSpeaking && (
+                  <span className="flex space-x-0.5 items-end h-3 mr-1">
+                    <span className="w-1 bg-cyan-400 h-2 animate-bounce rounded-full" />
+                    <span className="w-1 bg-cyan-400 h-3 animate-bounce delay-100 rounded-full" />
+                    <span className="w-1 bg-cyan-400 h-1.5 animate-bounce delay-200 rounded-full" />
+                  </span>
+                )}
+                <button
+                  onClick={isSpeaking ? handleStopVoice : handleReplayVoice}
+                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-cyan-300 flex items-center space-x-1 transition-all"
+                >
+                  {isSpeaking ? (
+                    <>
+                      <Square className="w-3 h-3 text-red-400 fill-red-400" />
+                      <span>Stop</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-3 h-3 text-emerald-400 fill-emerald-400" />
+                      <span>Play Voice</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-slate-300 leading-relaxed font-sans italic">
+              "{spokenTranscript || 'Select a patient scan above or click Upload MRI Scan to trigger automated clinical voice briefing.'}"
+            </div>
+          </div>
+
           {/* Neural Network Probability Distribution */}
           <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-xl space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
@@ -273,7 +365,7 @@ export default function Home() {
               {/* Glioma */}
               <div>
                 <div className="flex justify-between text-slate-300 mb-1">
-                  <span>Glioma (GBM / Astrocytoma)</span>
+                  <span>Glioma (Malignant Astrocytoma)</span>
                   <span className="font-bold text-red-400">
                     {selectedCase.probabilities.glioma}%
                   </span>
@@ -305,7 +397,7 @@ export default function Home() {
               {/* Pituitary */}
               <div>
                 <div className="flex justify-between text-slate-300 mb-1">
-                  <span>Pituitary Adenoma</span>
+                  <span>Pituitary Macroadenoma</span>
                   <span className="font-bold text-purple-400">
                     {selectedCase.probabilities.pituitary}%
                   </span>
@@ -321,7 +413,7 @@ export default function Home() {
               {/* Healthy */}
               <div>
                 <div className="flex justify-between text-slate-300 mb-1">
-                  <span>Healthy Brain (Normal)</span>
+                  <span>Healthy Control (Normal)</span>
                   <span className="font-bold text-emerald-400">
                     {selectedCase.probabilities.healthy}%
                   </span>
@@ -340,33 +432,35 @@ export default function Home() {
           <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-xl space-y-3">
             <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5 pb-2 border-b border-slate-800">
               <Info className="w-3.5 h-3.5 text-teal-400" />
-              <span>Quantitative Lesion Biometrics</span>
+              <span>Detected Portion Biometrics</span>
             </h3>
 
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800">
-                <span className="text-[10px] text-slate-500 block uppercase">Estimated Area</span>
+                <span className="text-[10px] text-slate-500 block uppercase">Cross-Section Area</span>
                 <span className="text-base font-bold font-mono text-cyan-300">
                   {selectedCase.tumorAreaMm2 > 0 ? `${selectedCase.tumorAreaMm2} mm²` : "0.0 mm²"}
                 </span>
               </div>
 
               <div className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800">
-                <span className="text-[10px] text-slate-500 block uppercase">Mass Effect</span>
-                <span className="text-xs font-bold text-slate-300">
-                  {selectedCase.massEffect}
+                <span className="text-[10px] text-slate-500 block uppercase">Centroid Voxel</span>
+                <span className="text-xs font-mono font-bold text-amber-400">
+                  {selectedCase.tumorCentroid.radius > 0
+                    ? `[X:${selectedCase.tumorCentroid.x}, Y:${selectedCase.tumorCentroid.y}]`
+                    : "None / N/A"}
                 </span>
               </div>
             </div>
 
             <div className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-xs">
-              <span className="text-[10px] text-slate-500 block uppercase">Anatomical Focus</span>
+              <span className="text-[10px] text-slate-500 block uppercase">Anatomical Detected Portion</span>
               <span className="font-semibold text-slate-200">{selectedCase.brainRegion}</span>
             </div>
           </div>
         </aside>
 
-        {/* Center & Right Column: PACS MRI Canvas & Grad-CAM Wiping Station (8 cols) */}
+        {/* Center & Right Column: PACS MRI Canvas & Advanced Visualisation Deck (8 cols) */}
         <section className="lg:col-span-8 flex flex-col space-y-4">
           {/* Main DICOM / MRI Canvas Viewer */}
           <div className="relative">
@@ -376,6 +470,9 @@ export default function Home() {
               showContour={showContour}
               showHeatmap={showHeatmap}
               colorMap={colorMap}
+              visualizationMode={visMode}
+              splitPosition={splitPos}
+              onSplitChange={setSplitPos}
             />
 
             {/* Quick PACS HUD Status Overlay */}
@@ -393,30 +490,174 @@ export default function Home() {
                 {selectedCase.severity === "danger"
                   ? "MALIGNANT LESION DETECTED"
                   : selectedCase.severity === "warning"
-                  ? "SUSPICIOUS MASS"
+                  ? "SUSPICIOUS MASS DETECTED"
                   : "NORMAL BRAIN PARENCHYMA"}
               </span>
             </div>
 
-            {/* Top Right Colormap Badge */}
+            {/* Top Right Mode Badge */}
             <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded-lg bg-black/80 text-[11px] font-mono text-cyan-300 border border-white/10 flex items-center space-x-1.5">
               <Sparkles className="w-3 h-3 text-cyan-400" />
-              <span>Grad-CAM: {colorMap.toUpperCase()} Tensor</span>
+              <span>
+                Mode:{" "}
+                {visMode === "fused"
+                  ? "Fused Overlay"
+                  : visMode === "difference"
+                  ? "Subtraction Difference"
+                  : visMode === "spotlight"
+                  ? "Portion Spotlight"
+                  : "Split-Screen Wiper"}
+              </span>
             </div>
           </div>
 
-          {/* Interactive Grad-CAM Wiping & Control Deck */}
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-xl space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-800">
+          {/* ADVANCED VISUALISATION CONTROLS & DIFFERENCE ENGINE */}
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-xl space-y-4">
+            {/* Visualisation Mode Selector Tabs */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800">
               <div className="flex items-center space-x-2">
                 <Sliders className="w-4 h-4 text-cyan-400" />
-                <h3 className="text-xs font-bold text-white uppercase tracking-wider">
-                  Grad-CAM Neural Heatmap Wiping Controls
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+                  Advanced Difference & Localization Modes:
                 </h3>
               </div>
 
+              {/* 4 Mode Buttons */}
+              <div className="flex flex-wrap rounded-xl bg-slate-950 p-1 border border-slate-800 text-xs font-mono">
+                <button
+                  onClick={() => setVisMode("fused")}
+                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 ${
+                    visMode === "fused"
+                      ? "bg-cyan-600 text-white font-bold"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <Layers className="w-3 h-3" />
+                  <span>Fused Overlay</span>
+                </button>
+
+                <button
+                  onClick={() => setVisMode("difference")}
+                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 ${
+                    visMode === "difference"
+                      ? "bg-emerald-600 text-white font-bold"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <Scissors className="w-3 h-3" />
+                  <span>Difference Map</span>
+                </button>
+
+                <button
+                  onClick={() => setVisMode("spotlight")}
+                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 ${
+                    visMode === "spotlight"
+                      ? "bg-amber-600 text-white font-bold"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <Crosshair className="w-3 h-3" />
+                  <span>Portion Spotlight</span>
+                </button>
+
+                <button
+                  onClick={() => setVisMode("split")}
+                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 ${
+                    visMode === "split"
+                      ? "bg-purple-600 text-white font-bold"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <SplitSquareVertical className="w-3 h-3" />
+                  <span>Interactive Split Wiper</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Split Wiper Slider (Active when in split mode) */}
+            {visMode === "split" && (
+              <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-800/60 space-y-2">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-purple-300 font-mono flex items-center space-x-1.5">
+                    <SplitSquareVertical className="w-3.5 h-3.5 text-purple-400" />
+                    <span>Split Wiper Position (Raw MRI vs Detection):</span>
+                  </span>
+                  <span className="font-mono font-bold text-white">
+                    {Math.round(splitPos * 100)}%
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0.05"
+                  max="0.95"
+                  step="0.01"
+                  value={splitPos}
+                  onChange={(e) => setSplitPos(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] text-purple-400/80 font-mono">
+                  <span>← 100% Raw MRI</span>
+                  <span>Drag Slider or Drag Directly on Image</span>
+                  <span>100% AI Detection →</span>
+                </div>
+              </div>
+            )}
+
+            {/* Heatmap Opacity Slider (When in Fused Mode) */}
+            {visMode === "fused" && (
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-400 flex items-center space-x-1.5">
+                    <Eye className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Grad-CAM Neural Attention Opacity Blend:</span>
+                  </span>
+                  <span className="font-mono font-bold text-cyan-300">
+                    {Math.round(gradCamOpacity * 100)}% Heatmap
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={gradCamOpacity}
+                  onChange={(e) => setGradCamOpacity(Number(e.target.value))}
+                  className="w-full accent-cyan-500 cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+                  <span>0% (Raw T1-CE MRI)</span>
+                  <span>50% (Fused Overlay)</span>
+                  <span>100% (Pure Attention Map)</span>
+                </div>
+              </div>
+            )}
+
+            {/* Colormaps & Toggles */}
+            <div className="pt-2 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="flex items-center space-x-4">
+                <label className="flex items-center space-x-2 cursor-pointer text-slate-300 hover:text-white">
+                  <input
+                    type="checkbox"
+                    checked={showContour}
+                    onChange={(e) => setShowContour(e.target.checked)}
+                    className="accent-red-500 rounded"
+                  />
+                  <span>Show Lesion Contour & Crosshairs</span>
+                </label>
+
+                <label className="flex items-center space-x-2 cursor-pointer text-slate-300 hover:text-white">
+                  <input
+                    type="checkbox"
+                    checked={showHeatmap}
+                    onChange={(e) => setShowHeatmap(e.target.checked)}
+                    className="accent-cyan-500 rounded"
+                  />
+                  <span>Enable Grad-CAM Activation</span>
+                </label>
+              </div>
+
               {/* Colormap Selectors */}
-              <div className="flex items-center space-x-1.5 text-xs font-mono">
+              <div className="flex items-center space-x-1.5 font-mono">
                 <span className="text-slate-500 text-[11px] mr-1">Colormap:</span>
                 {(["jet", "hot", "plasma"] as const).map((m) => (
                   <button
@@ -433,84 +674,30 @@ export default function Home() {
                 ))}
               </div>
             </div>
-
-            {/* Heatmap Opacity Slider (Wipe between Raw MRI and Neural Heatmap) */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-slate-400 flex items-center space-x-1.5">
-                  <Eye className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Explainability Blend Slider (Raw MRI $\leftrightarrow$ Neural Attention):</span>
-                </span>
-                <span className="font-mono font-bold text-cyan-300">
-                  {Math.round(gradCamOpacity * 100)}% Heatmap
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.05"
-                value={gradCamOpacity}
-                onChange={(e) => setGradCamOpacity(Number(e.target.value))}
-                className="w-full accent-cyan-500 cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
-                <span>0% (Raw T1/T2 MRI Scan)</span>
-                <span>50% (Fused Overlay)</span>
-                <span>100% (Pure Neural Heatmap)</span>
-              </div>
-            </div>
-
-            {/* Toggle Switches */}
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-              <div className="flex items-center space-x-4">
-                <label className="flex items-center space-x-2 cursor-pointer text-slate-300 hover:text-white">
-                  <input
-                    type="checkbox"
-                    checked={showHeatmap}
-                    onChange={(e) => setShowHeatmap(e.target.checked)}
-                    className="accent-cyan-500 rounded"
-                  />
-                  <span>Show Grad-CAM Layer</span>
-                </label>
-
-                <label className="flex items-center space-x-2 cursor-pointer text-slate-300 hover:text-white">
-                  <input
-                    type="checkbox"
-                    checked={showContour}
-                    onChange={(e) => setShowContour(e.target.checked)}
-                    className="accent-red-500 rounded"
-                  />
-                  <span>Show Lesion Contour & Area</span>
-                </label>
-              </div>
-
-              {/* Replay Spoken Radiology Briefing */}
-              <button
-                onClick={() => handleSelectCase(selectedCase)}
-                className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center space-x-1.5 transition-colors"
-              >
-                <Volume2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Replay Spoken Briefing</span>
-              </button>
-            </div>
           </div>
 
-          {/* Mathematical Explainable AI Reference (A+ for Teachers) */}
+          {/* Mathematical Explainable AI Formulation Box */}
           <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-xl text-xs space-y-2">
             <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono flex items-center space-x-1.5">
               <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Grad-CAM Gradient Attribution Formulation</span>
+              <span>Grad-CAM Gradient Attribution & Difference Subtraction Formulation</span>
             </h3>
             <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[10.5px] font-mono text-cyan-300">
-              L_Grad-CAM = ReLU( Σ_k α_k · A^k ) where α_k = (1/Z) Σ_i Σ_j (∂y^c / ∂A_ij^k)
+              L_Grad-CAM = ReLU( Σ_k α_k · A^k )  where  α_k = (1/Z) Σ_i Σ_j (∂y^c / ∂A_ij^k)
             </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Computes gradients of score $y^c$ for class $c$ with respect to feature activation maps $A^k$ of the final DenseNet-121 convolutional layer. A rectified linear activation (ReLU) filters negative attributions, highlighting solely the pathological pixels that triggered the positive tumor diagnosis.
+            <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
+              Computes gradients of score $y^c$ for class $c$ with respect to feature activation maps $A^k$ of the Stage 5 deep residual convolutional block. Rectified linear activation (ReLU) filters negative attributions, isolating exclusively the pathological pixels that triggered the positive tumor diagnosis.
             </p>
           </div>
         </section>
       </main>
+
+      {/* Upload MRI Scan Modal */}
+      <UploadMRIModal
+        isOpen={showUploadModal}
+        onClose={() => setShowUploadModal(false)}
+        onUploadSuccess={handleUploadSuccess}
+      />
 
       {/* Official Radiology Report Modal */}
       {showReportModal && (
@@ -520,7 +707,7 @@ export default function Home() {
         />
       )}
 
-      {/* Academic ML Defense & 10 Figures Modal */}
+      {/* Academic Defense & 12 Figures Modal */}
       <AcademicDefenseModal
         isOpen={showDefenseModal}
         onClose={() => setShowDefenseModal(false)}

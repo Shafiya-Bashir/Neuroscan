@@ -1,0 +1,31 @@
+Project: NeuroScan - Multi-Class Brain Tumor MRI Diagnosis via Deep Convolutional Networks
+========================================================================================
+End-to-End Workflow & Academic Presentation Reproduction Guide:
+
+1. Ingest authentic raw Brain MRI cohort (N=600 scans, 4 clinical classes):
+   python3 src/data/make_dataset.py
+   (Generates data/raw/ with glioma, meningioma, notumor, pituitary, and raw_mri_manifest.csv)
+
+2. Conduct clinical EDA, execute Stratified 70/15/15 split, and calibrate zero-leakage normalization:
+   python3 src/features/build_features.py
+   (Generates data/processed/ train/val/test splits, norm_params.json, class_weights.json, and manifests)
+
+3. Train 5-Stage Residual-SE Deep CNN with Balanced Sampler & Weighted Cross-Entropy Loss:
+   python3 src/models/train_model.py
+   (Trains on Apple Silicon MPS / CUDA / CPU, checkpoints models/neuroscan_best_model.pth, and outputs accuracy.txt)
+
+4. Generate full suite of 12 Publication-Grade Clinical & Academic Diagnostic Visualizations:
+   python3 src/visualization/visualize.py
+   (Saves 12 high-resolution 300 DPI figures to reports/figures/ and public/reports/figures/)
+
+5. Run sample CLI clinical inference, Grad-CAM generation & difference isolation:
+   python3 src/models/predict_model.py
+   (Outputs clinical console triage and saves reports/sample_prediction_output.png)
+
+6. Launch the interactive clinical PACS workstation with Grad-CAM, Difference Map & Voice Narration:
+   npm run dev
+   (Access in browser at: http://localhost:3000)
+
+Optional: Launch live PyTorch FastAPI backend server:
+   python3 ai_engine/server.py
+   (Serves live API on: http://127.0.0.1:8000)

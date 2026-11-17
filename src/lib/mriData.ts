@@ -21,6 +21,9 @@ export interface MRICase {
     pituitary: number;
     healthy: number;
   };
+  customImageUrl?: string;
+  gradcamHeatmapUrl?: string;
+  isUploaded?: boolean;
 }
 
 export const PRELOADED_MRI_CASES: MRICase[] = [
@@ -47,6 +50,7 @@ export const PRELOADED_MRI_CASES: MRICase[] = [
       pituitary: 0.2,
       healthy: 0.2,
     },
+    customImageUrl: "/sample_mri/demo_glioma.png"
   },
   {
     id: "case-meningioma",
@@ -71,6 +75,7 @@ export const PRELOADED_MRI_CASES: MRICase[] = [
       pituitary: 1.2,
       healthy: 0.8,
     },
+    customImageUrl: "/sample_mri/demo_meningioma.png"
   },
   {
     id: "case-pituitary",
@@ -85,7 +90,7 @@ export const PRELOADED_MRI_CASES: MRICase[] = [
     confidence: 91.5,
     tumorAreaMm2: 420,
     tumorCentroid: { x: 320, y: 245, radius: 26 },
-    brainRegion: "Sellar & Suprasellar Cistern",
+    brainRegion: "Sellar Fossa & Suprasellar Cistern",
     massEffect: "Mild Local Compression",
     clinicalSummary: "Expanded sella turcica containing an isointense mass extending superiorly into the suprasellar cistern.",
     radiologistNotes: "Lesion approaches the optic chiasm. Visual field Humphrey perimetry and endocrine panel correlation recommended.",
@@ -95,29 +100,31 @@ export const PRELOADED_MRI_CASES: MRICase[] = [
       pituitary: 91.5,
       healthy: 2.2,
     },
+    customImageUrl: "/sample_mri/demo_pituitary.png"
   },
   {
     id: "case-healthy",
-    patientName: "Patient #1105 (Nadia R.)",
+    patientName: "Patient #1105 (Fatima S.)",
     mrn: "RAD-2026-001105",
     age: 29,
     gender: "Female",
     scanType: "Axial T1-Weighted Contrast Enhanced",
-    diagnosis: "Unremarkable Normal Brain MRI Scan",
+    diagnosis: "Normal Brain Neuroanatomy (Healthy Control)",
     classification: "Healthy",
     severity: "healthy",
     confidence: 99.4,
     tumorAreaMm2: 0,
     tumorCentroid: { x: 0, y: 0, radius: 0 },
-    brainRegion: "Intact Symmetrical Cerebral Hemispheres",
+    brainRegion: "Normal Intracranial Parenchyma",
     massEffect: "None / Symmetrical",
-    clinicalSummary: "Normal ventricular morphology with intact gray-white matter differentiation. Zero pathological contrast enhancement.",
-    radiologistNotes: "Symmetrical lateral and third ventricles. Basal cisterns clear. No evidence of space-occupying lesion or acute ischemia.",
+    clinicalSummary: "Symmetrical cerebral hemispheres with normal corticomedullary differentiation. No pathological enhancement.",
+    radiologistNotes: "Intracranial compartments are unremarkable. Ventricles and basal cisterns are within physiological limits. No mass effect.",
     probabilities: {
       glioma: 0.2,
       meningioma: 0.2,
       pituitary: 0.2,
       healthy: 99.4,
     },
+    customImageUrl: "/sample_mri/demo_normal.png"
   },
 ];

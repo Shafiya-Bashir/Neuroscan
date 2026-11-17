@@ -1,0 +1,83 @@
+{
+  "dataset_name": "NEUROSCAN Clinical Brain MRI Cohort",
+  "classes": [
+    "glioma",
+    "meningioma",
+    "notumor",
+    "pituitary"
+  ],
+  "total_scans": 600,
+  "split_counts": {
+    "train": {
+      "glioma": 140,
+      "meningioma": 105,
+      "notumor": 91,
+      "pituitary": 84
+    },
+    "val": {
+      "glioma": 30,
+      "meningioma": 22,
+      "notumor": 20,
+      "pituitary": 18
+    },
+    "test": {
+      "glioma": 30,
+      "meningioma": 23,
+      "notumor": 19,
+      "pituitary": 18
+    },
+    "total": {
+      "glioma": 200,
+      "meningioma": 150,
+      "notumor": 130,
+      "pituitary": 120
+    }
+  },
+  "class_weights": {
+    "glioma": 0.75,
+    "meningioma": 1.0,
+    "notumor": 1.1538,
+    "pituitary": 1.25
+  },
+  "imbalance_ratio": 1.667,
+  "eda": {
+    "total_scans": 600,
+    "class_distribution": {
+      "glioma": 200,
+      "meningioma": 150,
+      "notumor": 130,
+      "pituitary": 120
+    },
+    "imbalance_ratio": 1.667,
+    "intensity_stats": {
+      "glioma": {
+        "mean_intensity": 60.83,
+        "std_intensity": 57.61,
+        "snr_db": 0.47,
+        "min": 0,
+        "max": 252
+      },
+      "meningioma": {
+        "mean_intensity": 61.78,
+        "std_intensity": 59.33,
+        "snr_db": 0.35,
+        "min": 0,
+        "max": 255
+      },
+      "notumor": {
+        "mean_intensity": 60.66,
+        "std_intensity": 55.64,
+        "snr_db": 0.75,
+        "min": 0,
+        "max": 161
+      },
+      "pituitary": {
+        "mean_intensity": 62.71,
+        "std_intensity": 58.23,
+        "snr_db": 0.64,
+        "min": 0,
+        "max": 227
+      }
+    }
+  }
+}

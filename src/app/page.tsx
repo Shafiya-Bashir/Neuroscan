@@ -62,6 +62,23 @@ export default function Home() {
   const [showDefenseModal, setShowDefenseModal] = useState<boolean>(false);
   const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const caseParam = params.get("case");
+      const modeParam = params.get("mode") as VisualizationMode | null;
+      if (caseParam) {
+        const found = PRELOADED_MRI_CASES.find(
+          (c) => c.id === caseParam || c.classification.toLowerCase() === caseParam.toLowerCase()
+        );
+        if (found) setSelectedCase(found);
+      }
+      if (modeParam && ["fused", "difference", "detected", "wiper"].includes(modeParam)) {
+        setVisMode(modeParam);
+      }
+    }
+  }, []);
+
   // Trigger Sound & Voice upon selecting a case
   const handleSelectCase = (mriCase: MRICase) => {
     setSelectedCase(mriCase);

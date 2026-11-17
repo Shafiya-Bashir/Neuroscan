@@ -269,9 +269,35 @@ Production output from `python3 src/models/predict_model.py`:
 
 ---
 
-## 🖥️ Interactive Web UI: Advanced Difference Visualisation, Voice Narration & Medical Report
+## 🖥️ Interactive Web UI: Multi-Class Diagnostic Outputs & Difference Visualisation
 
-The Next.js workstation provides enterprise-grade clinical radiology features:
+The Next.js workstation provides an enterprise-grade clinical neuroradiology console with real-time AI inference, voice briefings, and difference mapping. Below are the authentic UI outputs across all four clinical cohorts:
+
+### 1. High-Grade Glioma (WHO Grade IV) - Clinical Diagnostic UI
+Displays severe malignant alert, right frontotemporal localization, $98.7\%$ model confidence, 6.2mm midline mass effect shift, and red Grad-CAM activation spotlighting the infiltrative lesion.
+![Glioma UI Output](reports/figures/screenshots/ui_glioma_diagnostic.png)
+
+### 2. Atypical Convexity Meningioma (WHO Grade II) - Clinical Diagnostic UI
+Displays extra-axial mass alert, left parasagittal dural localization, $94.2\%$ confidence, $840\text{ mm}^2$ tumor cross-section, and amber Grad-CAM focal activation tracking the dural tail sign.
+![Meningioma UI Output](reports/figures/screenshots/ui_meningioma_diagnostic.png)
+
+### 3. Pituitary Macroadenoma - Sellar Neoplasm Diagnostic UI
+Displays moderate endocrine caution, sellar fossa and suprasellar cistern localization, $91.5\%$ confidence, and purple Grad-CAM attention focused on the skull base sella turcica.
+![Pituitary UI Output](reports/figures/screenshots/ui_pituitary_diagnostic.png)
+
+### 4. Normal Healthy Brain Neuroanatomy - Negative Screening UI
+Displays verified negative screening badge, intact corticomedullary symmetry, $99.4\%$ healthy confidence, $0.0\text{ mm}^2$ lesion area, and green physiological baseline confirmation.
+![Healthy Control UI Output](reports/figures/screenshots/ui_healthy_diagnostic.png)
+
+### 5. Advanced Subtraction Difference Map Mode (Lesion Delta)
+Demonstrates the **Difference Map** mode, which subtracts healthy baseline parenchyma to spotlight the detected pathological lesion in vivid neon green with centroid crosshairs $[X: 390, Y: 220]$, bounding reticle, and area metrics.
+![Difference Map Mode UI Output](reports/figures/screenshots/ui_difference_map_mode.png)
+
+---
+
+## 🛠️ Workstation Clinical Features: Difference Maps, Voice Narration & PDF Reports
+
+The workstation integrates several advanced clinical tools designed for real radiologist workflows:
 
 1. **Patient MRI Scan Upload & Drag-and-Drop Dropzone:**
    - Click the glowing **"Upload MRI Scan"** button in the header or **"+ Upload New Scan"** in the patient selector to upload any external axial MRI scan (.png, .jpg, .dicom).

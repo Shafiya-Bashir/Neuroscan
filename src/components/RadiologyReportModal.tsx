@@ -72,6 +72,10 @@ export const RadiologyReportModal: React.FC<Props> = ({ mriCase, onClose }) => {
             <p className="text-[11px] text-slate-500 border-t border-slate-200 pt-1 mt-1">
               DICOM PACS Network • 3.0T High-Field Cranial MRI Suite • Ref: NEURO-XAI-DIAGNOSTIC-DOSSIER
             </p>
+            <div className="mt-2 flex items-center justify-between text-[10px] text-cyan-800 font-mono bg-cyan-50 px-2.5 py-1 rounded border border-cyan-200">
+              <span>Deep Learning Validation Benchmark: 94.44% Test Concordance (Cohen&apos;s κ = 0.9247)</span>
+              <span>Zero-Leakage Stratified Holdout (N=90)</span>
+            </div>
           </div>
 
           {/* Patient Demographic Table */}

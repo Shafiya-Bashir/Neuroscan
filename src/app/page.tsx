@@ -34,7 +34,10 @@ import {
   Radio,
   Play,
   Square,
-  PlusCircle
+  PlusCircle,
+  Edit3,
+  XCircle,
+  Database
 } from "lucide-react";
 
 export default function Home() {
@@ -61,6 +64,40 @@ export default function Home() {
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
   const [showDefenseModal, setShowDefenseModal] = useState<boolean>(false);
   const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
+
+  // Human-in-the-Loop Active Learning Feedback State
+  const [feedbackAction, setFeedbackAction] = useState<"idle" | "accepted" | "correcting" | "corrected" | "rejected">("idle");
+  const [correctedDiagnosis, setCorrectedDiagnosis] = useState<string>("Meningioma");
+  const [clinicianNotes, setClinicianNotes] = useState<string>("");
+  const [feedbackAuditId, setFeedbackAuditId] = useState<string | null>(null);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState<boolean>(false);
+
+  const handleSendFeedback = async (action: "accepted" | "corrected" | "rejected") => {
+    setIsSubmittingFeedback(true);
+    try {
+      const res = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          caseId: selectedCase.id,
+          patientName: selectedCase.patientName,
+          aiDiagnosis: selectedCase.diagnosis,
+          action,
+          correctedDiagnosis: action === "corrected" ? correctedDiagnosis : null,
+          clinicianNotes,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setFeedbackAuditId(data.auditEntry.auditId);
+        setFeedbackAction(action);
+      }
+    } catch (e) {
+      console.error("Feedback logging error:", e);
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
